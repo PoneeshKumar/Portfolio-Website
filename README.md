@@ -32,7 +32,7 @@ npm run build
 
 ### What I Made
 A high-performance personal brand site and digital terminal designed to showcase the intersection of code and capital markets. 
-  Live Financial Ticker: Real-time data streaming of global indices ($S\&P$ 500, $Nasdaq$) and bond yields using a Vercel Serverless Proxy to handle API requests.
+  Live Financial Ticker: Real-time data streaming of global indices (S\&P 500, $Nasdaq$) and bond yields using a Vercel Serverless Proxy to handle API requests.
   Dual-Track Strategy: A unique "Resume Hub" with separate profiles for Software Engineering and Quantitative Finance, allowing for targeted co-op applications.
   Stack: Built with React, TypeScript, and Tailwind CSS, deployed via Vercel with a custom serverless backend.
 
