@@ -571,7 +571,7 @@ function App() {
               </h3>
               <ul className="mt-1 list-disc space-y-1 pl-5 text-xs sm:text-sm text-slate-300">
                 <li>Quantitative Finance &amp; Algorithmic Trading in Python</li>
-                <li>Microsoft Security Essentials</li>
+                <li>Microsoft Security Essentials: Concepts, Solutions & AI Powered Protection</li>
                 <li>SQL for Finance</li>
               </ul>
             </article>
@@ -699,8 +699,8 @@ function App() {
             >
               {/* Finance Resume Content */}
               <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Quant</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Finance & Investments Focus</h3>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance</p>
+                <h3 className="mb-3 text-lg font-bold text-white">Finance & Investment Analyst Focus</h3>
               </div>
               <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">Download PDF ↓</p>
             </a>
@@ -712,8 +712,8 @@ function App() {
             >
               {/* Tech Resume Content */}
               <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Data Sciences & Quantitative Analyst Focus</h3>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering & Data Sciences</p>
+                <h3 className="mb-3 text-lg font-bold text-white">Data Sciences & Finance Applications</h3>
               </div>
               <p className="text-xs font-bold text-sky-400 flex items-center gap-2">Download PDF ↓</p>
             </a>
