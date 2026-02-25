@@ -30,78 +30,27 @@ npm run build
 - **Hero section** tuned for Waterloo + quant finance, explaining how you bridge code and capital.
 - **Stories, Projects, Resume Hub, and Contact** sections laid out as a single, responsive page.
 
-To customize the content, edit `src/App.tsx` (text, projects, links) and replace the resume links in the **Resume Hub** section with your actual PDF filenames.
+### What I Made
+A high-performance personal brand site and digital terminal designed to showcase the intersection of code and capital markets. 
+  Live Financial Ticker: Real-time data streaming of global indices ($S\&P$ 500, $Nasdaq$) and bond yields using a Vercel Serverless Proxy to handle API requests.
+  Dual-Track Strategy: A unique "Resume Hub" with separate profiles for Software Engineering and Quantitative Finance, allowing for targeted co-op applications.
+  Stack: Built with React, TypeScript, and Tailwind CSS, deployed via Vercel with a custom serverless backend.
 
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Why I Made It
+As a first year CFM student, I realized that my two interests, algorithmic trading and Finance often exist in silos. I wanted a platform that didn't just list my skills, but demonstrated them. I needed a way to prove that I could handle the CORS challenges of financial data APIs while maintaining a professional, finance-first aesthetic. Additionally, I wanted to make something that was able to showcase me in a more creative way rather then just a resume or cover letter!
 
-Currently, two official plugins are available:
+### What I Originally Thought
+I originally thought building a portfolio was just about making a pretty website with some links. I planned to hit the Yahoo Finance API directly from the frontend and just hardcode my About Me stories. I figured the most difficult part would be the CSS animations for the scrolling ticker.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### What Actually Happened
+The CORS Wall: I quickly hit a security wall, browsers block direct requests to Yahoo Finance to prevent spam.
+The Tag Tangling Crisis: During development, I accidentally nested several <section> tags, which caused my production builds to fail with Command "npm run build" exited with 2.
+File Sync Issues: I struggled to get my PDF resumes to appear on the live site because they were being ignored by Git or named with inconsistent casing that Linux servers couldn't find.
 
-## React Compiler
+### What I Took Away
+1. Backend is Mandatory: Even for a frontend portfolio, understanding Serverless Functions is essential for handling secure data flows and bypassing browser restrictions.
+2. Latency Matters: I learned to optimize for sub-second load times. In fintech, if the data is slow, it's useless.
+3. The Developer Mindset: I moved from just making it work to engineering for failure. I implemented static fallbacks for my ticker so the site remains functional even if the live API is down.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+I am always looking for ways to improve, so if you see something I could work on for my next project, do let me know!
