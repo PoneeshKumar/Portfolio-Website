@@ -689,68 +689,36 @@ function App() {
           </div>
         </section>
 
-        <section
-          id="resume"
-          aria-label="Resume hub"
-          className="mb-14 space-y-6"
-        >
-         <section
-  id="resume"
-  aria-label="Resume hub"
-  className="mb-14 space-y-6"
->
-  <SectionHeading
-    eyebrow="Resumes"
-    title="Two focused resumes for different roles"
-  />
-  <div className="grid gap-4 md:grid-cols-2">
-    {/* Finance Resume Card */}
-    <a
-      href="/Poneesh_Resume_Finance.pdf"
-      download="Poneesh_Resume_Finance.pdf"
-      className="group flex flex-col justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5 transition hover:border-emerald-400/80 hover:bg-slate-950"
-    >
-      <div>
-        <p className="mb-1 text-xs font-medium uppercase tracking-[0.2em] text-emerald-300">
-          Finance &amp; Fintech
-        </p>
-        <h3 className="mb-2 text-sm font-semibold text-slate-100">
-          Software for Finance &amp; Markets
-        </h3>
-        <p className="text-sm text-slate-300">
-          Emphasis on fintech projects, portfolio construction, and
-          work that sits between engineering and financial thinking.
-        </p>
-      </div>
-      <p className="text-xs text-emerald-300 group-hover:text-emerald-200">
-        Download finance-focused resume →
-      </p>
-    </a>
+        <section id="resume" aria-label="Resume hub" className="mb-20 space-y-8">
+          <SectionHeading eyebrow="Resumes" title="Dual-Track Professional Profiles" />
+          <div className="grid gap-6 md:grid-cols-2">
+            <a
+              href="/Poneesh_Resume_Finance.pdf"
+              download="Poneesh_Resume_Finance.pdf"
+              className="group relative flex flex-col justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/80 p-8 transition-all hover:border-emerald-400/50 hover:bg-emerald-400/[0.02] overflow-hidden"
+            >
+              {/* Finance Resume Content */}
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Quant</p>
+                <h3 className="mb-3 text-lg font-bold text-white">Quantitative Analyst Focus</h3>
+              </div>
+              <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">Download PDF ↓</p>
+            </a>
 
-    {/* Tech Resume Card */}
-    <a
-      href="/Poneesh_Resume_Tech.pdf"
-      download="Poneesh_Resume_Tech.pdf"
-      className="group flex flex-col justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5 transition hover:border-sky-400/80 hover:bg-slate-950"
-    >
-      <div>
-        <p className="mb-1 text-xs font-medium uppercase tracking-[0.2em] text-sky-300">
-          Software Engineering
-        </p>
-        <h3 className="mb-2 text-sm font-semibold text-slate-100">
-          Software Engineering / Systems
-        </h3>
-        <p className="text-sm text-slate-300">
-          Emphasis on data structures, systems work, and building
-          reliable, scalable applications.
-        </p>
-      </div>
-      <p className="text-xs text-sky-300 group-hover:text-sky-200">
-        Download software-focused resume →
-      </p>
-    </a>
-  </div>
-</section>
+            <a
+              href="/Poneesh_Resume_Tech.pdf"
+              download="Poneesh_Resume_Tech.pdf"
+              className="group relative flex flex-col justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/80 p-8 transition-all hover:border-sky-400/50 hover:bg-sky-400/[0.02] overflow-hidden"
+            >
+              {/* Tech Resume Content */}
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering</p>
+                <h3 className="mb-3 text-lg font-bold text-white">Full-Stack & Systems Focus</h3>
+              </div>
+              <p className="text-xs font-bold text-sky-400 flex items-center gap-2">Download PDF ↓</p>
+            </a>
+          </div>
+        </section>
 
         <section
           id="contact"
