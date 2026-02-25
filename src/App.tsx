@@ -700,7 +700,7 @@ function App() {
               {/* Finance Resume Content */}
               <div>
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Quant</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Quantitative Analyst Focus</h3>
+                <h3 className="mb-3 text-lg font-bold text-white">Finance & Investments Focus</h3>
               </div>
               <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">Download PDF ↓</p>
             </a>
@@ -713,7 +713,7 @@ function App() {
               {/* Tech Resume Content */}
               <div>
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Full-Stack & Systems Focus</h3>
+                <h3 className="mb-3 text-lg font-bold text-white">Data Sciences & Quantitative Analyst Focus</h3>
               </div>
               <p className="text-xs font-bold text-sky-400 flex items-center gap-2">Download PDF ↓</p>
             </a>
