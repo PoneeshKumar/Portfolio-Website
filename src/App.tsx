@@ -296,7 +296,7 @@ function App() {
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-3 py-1 text-xs text-slate-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span>First-Year CFM · University of Waterloo</span>
+              <span> Poneesh Kumar, First-Year CFM · University of Waterloo</span>
             </div>
             <h1 className="mb-4 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               Bridging the gap between{' '}
