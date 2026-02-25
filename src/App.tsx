@@ -700,7 +700,7 @@ function App() {
           />
           <div className="grid gap-4 md:grid-cols-2">
             <a
-              href="/Anil_Finance_Resume.pdf"
+              href="/Poneesh_Resume_Finance.pdf"
               className="group flex flex-col justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5 transition hover:border-emerald-400/80 hover:bg-slate-950"
             >
               <div>
@@ -721,7 +721,7 @@ function App() {
             </a>
 
             <a
-              href="/Anil_Software_Resume.pdf"
+              href="/Poneesh_Tech_Resume.pdf"
               className="group flex flex-col justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5 transition hover:border-sky-400/80 hover:bg-slate-950"
             >
               <div>
