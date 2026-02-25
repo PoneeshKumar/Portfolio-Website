@@ -1,6 +1,6 @@
 ## Portfolio Website
 
-This is a personal portfolio for a University of Waterloo CS student targeting quantitative finance and software engineering co-ops. It is built with **Vite**, **React 19**, **TypeScript**, and **Tailwind CSS 4**.
+This is a personal portfolio for a University of Waterloo CS + Finance student targeting quantitative finance and software engineering co-ops. It is built with **Vite**, **React 19**, **TypeScript**, and **Tailwind CSS 4**.
 
 ### Scripts
 
