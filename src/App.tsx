@@ -513,7 +513,7 @@ function App() {
               <div className="mb-3 text-xs text-slate-400">
                 <div>
                   <p className="font-semibold text-slate-100">
-                    Co-Founder &amp; CTO · ArtiCue
+                    Co-Founder &amp; CTO · Stealth
                   </p>
                   <p className="text-slate-400">Mar 2025 – Present · Waterloo, ON</p>
                   <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
