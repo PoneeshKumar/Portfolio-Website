@@ -743,9 +743,9 @@ function App() {
                 <svg className="h-20 w-20 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
               </div>
               <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Quant</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Investments</p>
                 <h3 className="mb-3 text-lg font-bold text-white">Quantitative Analyst Focus</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">Tailored for HFT, asset management, and fintech. Emphasizes portfolio theory, risk modeling, and financial data engineering.</p>
+                <p className="text-sm text-slate-400 leading-relaxed">Tailored for investments, asset management, and hedge funds. Emphasizes portfolio theory, risk modeling, and financial data engineering.</p>
               </div>
               <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">
                 Download PDF <span className="group-hover:translate-y-1 transition-transform">↓</span>
@@ -763,7 +763,7 @@ function App() {
               <div>
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering</p>
                 <h3 className="mb-3 text-lg font-bold text-white">Full-Stack & Systems Focus</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">Tailored for Big Tech and engineering teams. Emphasizes TypeScript, React, Serverless architecture, and reliable systems.</p>
+                <p className="text-sm text-slate-400 leading-relaxed">Tailored for Big Tech and Quant teams. Emphasizes python, Typescript, Serverless architecture, and reliable systems.</p>
               </div>
               <p className="text-xs font-bold text-sky-400 flex items-center gap-2">
                 Download PDF <span className="group-hover:translate-y-1 transition-transform">↓</span>
