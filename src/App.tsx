@@ -97,6 +97,14 @@ const devItems: TickerItem[] = [
 
 const projects: Project[] = [
   {
+    title: 'ArtiCue',
+    tag: 'Software',
+    description: 'AI-powered speech therapy platform using Gemini 2.5 Flash and ElevenLabs to provide children with real-time articulation feedback—a project that earned us seed support and mentorship from Google engineers as a Top 12 winner',
+    tech: ['Next.js 16, TypeScript, Tailwind CSS, Lottie, Gemini 2.5 Flash, ElevenLabs, Firebase Firestore, Auth0, Vercel, PubMed, Semantic Scholar, ERIC, and OpenAlex APIs'],
+    github: 'https://youtu.be/nndhehSQGhc?si=lHNnGRCW9dgAOwoC '
+  },
+
+  {
     title: 'CFM 101 – Model-Driven Portfolio',
     tag: 'Finance',
     description:
@@ -296,7 +304,7 @@ function App() {
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-3 py-1 text-xs text-slate-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span> Poneesh Kumar, First-Year CFM · University of Waterloo</span>
+              <span>CFM · University of Waterloo</span>
             </div>
             <h1 className="mb-4 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               Bridging the gap between{' '}
@@ -309,7 +317,7 @@ function App() {
               </span>
             </h1>
             <p className="mb-6 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-              I&apos;m a first-year Computing and Financial Management student at the University
+              I&apos;m a Computing and Financial Management student at the University
               of Waterloo with a passion for building products where software and finance meet.
               From model-driven portfolios to full-stack web apps, I focus on clear engineering
               that supports real users in the fintech space.
@@ -402,30 +410,6 @@ function App() {
               <div className="space-y-3 text-xs sm:text-sm">
                 <div>
                   <p className="font-semibold text-slate-100">
-                    Data &amp; Research Analyst · Nodal Research
-                  </p>
-                  <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Analyzed market and fundamental datasets to identify key return drivers and
-                      portfolio risk exposures.
-                    </li>
-                    <li>
-                      Built Python workflows to clean, merge, and analyze large financial time-series
-                      datasets.
-                    </li>
-                    <li>
-                      Assessed portfolio risk for a $1.2M AUM fund using volatility, correlations, and
-                      drawdown metrics.
-                    </li>
-                    <li>
-                      Transformed quantitative findings into clear, actionable insights for
-                      investment decisions.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-100">
                     Financial Analyst · University of Waterloo Wealth Management
                   </p>
                   <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
@@ -496,12 +480,58 @@ function App() {
                     </li>
                   </ul>
                 </div>
+                <div>
+                  <p className="font-semibold text-slate-100">
+                    Bookkeeper · KumaraShivShakti Inc.
+                  </p>
+                  <p className="text-slate-400">Sep 2024 – Present · Hamilton, ON</p>
+                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
+                    <li>
+                      Designed data-cleaning and validation workflows improving reporting accuracy
+                      for a $7M+ real-estate portfolio.
+                    </li>
+                    <li>
+                      Built automated dashboards and forecasting tools enabling rapid, data-driven
+                      decisions for leadership.
+                    </li>
+                    <li>
+                      Developed KPI frameworks tracking efficiency metrics and providing real-time
+                      operational visibility.
+                    </li>
+                    <li>
+                      Built scalable data pipelines integrating multiple sources to support automated
+                      analytics and workflows.
+                    </li>
+                  </ul>
+                </div>
               </div>
             </article>
             <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
               <h3 className="text-sm font-semibold text-slate-100">
                 Software &amp; Automation Experience
               </h3>
+              <div className="mb-3 text-xs text-slate-400">
+                <div>
+                  <p className="font-semibold text-slate-100">
+                    Co-Founder &amp; CTO · ArtiCue
+                  </p>
+                  <p className="text-slate-400">Mar 2025 – Present · Waterloo, ON</p>
+                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
+                    <li>
+                      Architected an all-in-one Financial OS integrating real-time banking and an ML-driven risk engine
+                    </li>
+                    <li>
+                      Engineered scalable data pipelines for automated expense categorization and real-time portfolio volatility analysis.
+                    </li>
+                    <li>
+                      Spearheaded secure (SOC 2) roadmaps and freemium models to capture 3M+ users displaced by Mint’s exit
+                    </li>
+                    <li>
+                      Made a personalized market intelligence feed with sentiment tagging automating diversification and risk flags
+                    </li>
+                    </ul>
+                </div>
+                </div>
               <div className="space-y-3 text-xs sm:text-sm">
                 <div>
                   <p className="font-semibold text-slate-100">
@@ -529,25 +559,25 @@ function App() {
                 </div>
                 <div>
                   <p className="font-semibold text-slate-100">
-                    Software Engineering (Automation) · KumaraShivShakti Inc.
+                    Data &amp; Research Analyst · Nodal Research
                   </p>
-                  <p className="text-slate-400">Sep 2024 – Present · Hamilton, ON</p>
+                  <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
                   <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
                     <li>
-                      Designed data-cleaning and validation workflows improving reporting accuracy
-                      for a $7M+ real-estate portfolio.
+                      Analyzed market and fundamental datasets to identify key return drivers and
+                      portfolio risk exposures.
                     </li>
                     <li>
-                      Built automated dashboards and forecasting tools enabling rapid, data-driven
-                      decisions for leadership.
+                      Built Python workflows to clean, merge, and analyze large financial time-series
+                      datasets.
                     </li>
                     <li>
-                      Developed KPI frameworks tracking efficiency metrics and providing real-time
-                      operational visibility.
+                      Assessed portfolio risk for a $1.2M AUM fund using volatility, correlations, and
+                      drawdown metrics.
                     </li>
                     <li>
-                      Built scalable data pipelines integrating multiple sources to support automated
-                      analytics and workflows.
+                      Transformed quantitative findings into clear, actionable insights for
+                      investment decisions.
                     </li>
                   </ul>
                 </div>
@@ -571,7 +601,7 @@ function App() {
               </h3>
               <ul className="mt-1 list-disc space-y-1 pl-5 text-xs sm:text-sm text-slate-300">
                 <li>Quantitative Finance &amp; Algorithmic Trading in Python</li>
-                <li>Microsoft Security Essentials: Concepts, Solutions & AI Powered Protection</li>
+                <li>Microsoft Security Essentials</li>
                 <li>SQL for Finance</li>
               </ul>
             </article>
@@ -615,6 +645,18 @@ function App() {
                 Now I think in terms of <span className="font-semibold">data flows, invariants, and
                 failure modes</span> first—then I let the UI tell that story to
                 users as simply as possible.
+              </p>
+            </article>
+            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
+              <h3 className="text-sm font-semibold text-slate-100">
+                Story 3 · The Reasoning
+              </h3>
+              <p className="text-sm text-slate-300">
+                We built ArtiCue to solve a critical healthcare gap in Canada, where over 20% of preschoolers face speech impediments but families often endure 8-month waitlists for government-funded therapy. With private sessions costing up to $4,000 per month, many children in rural or low-income communities miss the vital early intervention window.
+                By leveraging Gemini’s multimodal AI, we wanted to put a clinically-grounded speech coach in the pocket of every parent—ensuring that while a child waits for a specialist, they aren't waiting to improve.
+              </p>
+              <p className="text-sm text-slate-400">
+                This project taught me that the most important part of building software for finance (or any field) is deeply understanding the problem you want to solve, and making sure your code and product decisions are always in service of that.
               </p>
             </article>
           </div>
@@ -697,12 +739,17 @@ function App() {
               download="Poneesh_Resume_Finance.pdf"
               className="group relative flex flex-col justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/80 p-8 transition-all hover:border-emerald-400/50 hover:bg-emerald-400/[0.02] overflow-hidden"
             >
-              {/* Finance Resume Content */}
-              <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Finance & Investment Analyst Focus</h3>
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <svg className="h-20 w-20 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
               </div>
-              <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">Download PDF ↓</p>
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Quant</p>
+                <h3 className="mb-3 text-lg font-bold text-white">Quantitative Analyst Focus</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">Tailored for HFT, asset management, and fintech. Emphasizes portfolio theory, risk modeling, and financial data engineering.</p>
+              </div>
+              <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">
+                Download PDF <span className="group-hover:translate-y-1 transition-transform">↓</span>
+              </p>
             </a>
 
             <a
@@ -710,12 +757,17 @@ function App() {
               download="Poneesh_Resume_Tech.pdf"
               className="group relative flex flex-col justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/80 p-8 transition-all hover:border-sky-400/50 hover:bg-sky-400/[0.02] overflow-hidden"
             >
-              {/* Tech Resume Content */}
-              <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering & Data Sciences</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Data Sciences & Finance Applications</h3>
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <svg className="h-20 w-20 text-sky-400" fill="currentColor" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
               </div>
-              <p className="text-xs font-bold text-sky-400 flex items-center gap-2">Download PDF ↓</p>
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering</p>
+                <h3 className="mb-3 text-lg font-bold text-white">Full-Stack & Systems Focus</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">Tailored for Big Tech and engineering teams. Emphasizes TypeScript, React, Serverless architecture, and reliable systems.</p>
+              </div>
+              <p className="text-xs font-bold text-sky-400 flex items-center gap-2">
+                Download PDF <span className="group-hover:translate-y-1 transition-transform">↓</span>
+              </p>
             </a>
           </div>
         </section>
