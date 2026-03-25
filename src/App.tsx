@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 type TickerItem = {
   label: string; symbol: string; value: string; delta: string
@@ -193,6 +194,7 @@ button { cursor: pointer; font-family: var(--sans); }
 `
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true)
   const [filter, setFilter] = useState<Filter>('All')
   const [liveQuotes, setLiveQuotes] = useState<LiveQuoteMap>({})
 
@@ -238,236 +240,336 @@ export default function App() {
   const wrap: React.CSSProperties = { maxWidth: 1000, margin: '0 auto', padding: '0 28px' }
 
   return (
-    <>
+   <>
       <style>{CSS}</style>
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div
+            key="splash"
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 100,
+              background: '#054d21', // Pitch Green
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden'
+            }}
+          >
+            {/* Stadium Floodlight Impact Flash */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.4, 0] }}
+              transition={{ duration: 0.4, delay: 0.8 }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'white',
+                zIndex: 101,
+                pointerEvents: 'none'
+              }}
+            />
 
-      {/* ── HEADER ── */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(248,249,250,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--line)' }}>
-        <div style={{ ...wrap, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--indigo)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 500, color: '#fff', letterSpacing: '-0.02em' }}>PK</span>
-            </span>
-            <span style={{ fontFamily: 'var(--sans)', fontSize: 14, fontWeight: 700, color: 'var(--t1)', letterSpacing: '-0.01em' }}>Poneesh</span>
-            <span style={{ fontSize: 12, color: 'var(--t3)', paddingLeft: 10, borderLeft: '1px solid var(--line2)' }}>CFM · Waterloo</span>
-          </div>
-          <nav style={{ display: 'flex', gap: 24 }}>
-            {['Experience', 'Volunteering', 'Projects', 'Resumes', 'Contact'].map(n => (
-              <a key={n} href={`#${n.toLowerCase()}`} className="nav-a"
-                style={{ fontSize: 13, fontWeight: 500, color: 'var(--t2)', letterSpacing: '-0.01em' }}>
-                {n}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
+            <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {/* THE HIT FOR 6 ANIMATION */}
+              <motion.div
+                initial={{ x: -150, y: 150, scale: 0.4, opacity: 1 }}
+                animate={{ 
+                  // 1. Approaches the "bat" 
+                  // 2. Impact at center (0,0)
+                  // 3. Accelerates into the camera (scaling massive)
+                  x: [-150, 0, 0],
+                  y: [150, 0, -300],
+                  scale: [0.4, 1, 60],
+                  opacity: [1, 1]
+                }}
+                transition={{ 
+                  duration: 2.0, 
+                  times: [0, 0.4, 1], 
+                  ease: "easeIn" 
+                }}
+                onAnimationComplete={() => setShowSplash(false)}
+                style={{
+                  width: 70,
+                  height: 70,
+                  background: 'radial-gradient(circle at 30% 30%, #d41111, #800000)',
+                  borderRadius: '50%',
+                  boxShadow: '0 0 50px rgba(0,0,0,0.5)',
+                  border: '2.5px dashed rgba(255,255,255,0.3)', // Ball Seam
+                  zIndex: 102
+                }}
+              />
+              
+              {/* Score Indicator */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: [1], scale: [0.5, 1.8, 2.5] }}
+                transition={{ delay: 0.8, duration: 1.0 }}
+                style={{
+                  position: 'absolute',
+                  color: '#FFD700', // Gold
+                  fontSize: '140px',
+                  fontWeight: 900,
+                  zIndex: 103,
+                  textShadow: '0 0 30px rgba(0,0,0,0.6)',
+                  fontFamily: 'var(--sans)'
+                }}
+              >
+                6!
+              </motion.div>
+            </div>
+            <motion.h1 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 0.6 }} 
+              style={{ color: '#fff', fontSize: '3rem', marginTop: 40, textAlign: 'center' }}
+            >
+              Poneesh · पुनीश · ਪੁਨੀਸ਼
+            </motion.h1>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* ── TICKER ── */}
-      <div style={{ background: 'var(--white)', borderBottom: '1px solid var(--line)', height: 38, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
-        <div style={{ flexShrink: 0, height: '100%', display: 'flex', alignItems: 'center', gap: 6, padding: '0 16px', borderRight: '1px solid var(--line)', background: 'var(--indigo-l)' }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', boxShadow: '0 0 0 2px rgba(99,102,241,0.25)', flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--indigo)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 500 }}>Live Market</span>
-        </div>
-        <div style={{ flex: 1, overflow: 'hidden', position: 'relative', height: '100%' }}>
-          <div className="tk" style={{ display: 'inline-flex', alignItems: 'center', height: '100%', whiteSpace: 'nowrap' }}>
-            {tickerItems.map((it, i) => <TickerChip key={`a${i}`} item={it} liveQuotes={liveQuotes} />)}
-          </div>
-          <div className="tk2" aria-hidden style={{ display: 'inline-flex', alignItems: 'center', height: '100%', whiteSpace: 'nowrap', position: 'absolute', top: 0, left: 0 }}>
-            {tickerItems.map((it, i) => <TickerChip key={`b${i}`} item={it} liveQuotes={liveQuotes} />)}
-          </div>
-        </div>
-      </div>
+      {/* --- MAIN PORTFOLIO CONTENT --- */}
+      {!showSplash && (
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ duration: 0.5 }}
+        >
+          {/* ── HEADER ── */}
+          <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(248,249,250,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--line)' }}>
+            <div style={{ ...wrap, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--indigo)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 500, color: '#fff', letterSpacing: '-0.02em' }}>PK</span>
+                </span>
+                <span style={{ fontFamily: 'var(--sans)', fontSize: 14, fontWeight: 700, color: 'var(--t1)', letterSpacing: '-0.01em' }}>Poneesh</span>
+                <span style={{ fontSize: 12, color: 'var(--t3)', paddingLeft: 10, borderLeft: '1px solid var(--line2)' }}>CFM · Waterloo</span>
+              </div>
+              <nav style={{ display: 'flex', gap: 24 }}>
+                {['Experience', 'Volunteering', 'Projects', 'Resumes', 'Contact'].map(n => (
+                  <a key={n} href={`#${n.toLowerCase()}`} className="nav-a"
+                    style={{ fontSize: 13, fontWeight: 500, color: 'var(--t2)', letterSpacing: '-0.01em' }}>
+                    {n}
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </header>
 
-      <main style={{ ...wrap, paddingTop: 0, paddingBottom: 120 }}>
-
-        {/* ── HERO ── */}
-        <section aria-label="Hero" style={{ paddingTop: 88, paddingBottom: 80 }}>
-          <div className="fu d1" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'var(--indigo-l)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 100, padding: '5px 12px', marginBottom: 28 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--indigo)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500 }}>Computing &amp; Financial Management · Waterloo</span>
-          </div>
-
-          <h1 className="fu d2" style={{
-            fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-            fontWeight: 800, lineHeight: 1.1,
-            letterSpacing: '-0.04em',
-            color: 'var(--t1)',
-            marginBottom: 22,
-            fontFamily: 'var(--sans)',
-            maxWidth: 850,
-          }}>
-            Where capital <span style={{ color: 'var(--indigo)' }}>powers</span> code with <br />
-            <span style={{ color: 'var(--indigo)' }}>Poneesh</span> · पुनीश · ਪੁਨੀਸ਼
-          </h1>
-
-          <p className="fu d3" style={{ fontSize: 16, fontWeight: 400, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 500, marginBottom: 36 }}>
-            CFM student at the University of Waterloo building at the intersection of quantitative finance and full-stack software development.
-          </p>
-
-          <div className="fu d4" style={{ display: 'flex', gap: 10, marginBottom: 64 }}>
-            <a href="#resumes" style={{ background: 'var(--indigo)', color: '#fff', padding: '12px 28px', borderRadius: 8, fontSize: 14, fontWeight: 600, transition: 'opacity .15s', boxShadow: '0 4px 14px rgba(99,102,241,0.35)' }}>
-              View Resumes
-            </a>
-            <a href="#projects" className="cta-ghost" style={{ background: 'var(--white)', border: '1px solid var(--line)', color: 'var(--t1)', padding: '12px 28px', borderRadius: 8, fontSize: 14, fontWeight: 500, transition: 'background .15s', boxShadow: 'var(--shadow)' }}>
-              Projects →
-            </a>
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── EXPERIENCE ── */}
-        <section id="experience" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <SecLabel n="01" title="Professional Experience" />
-
-          <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
-            <div>
-              <ColLabel text="Finance & Research" color="var(--indigo)" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-                {financeRoles.map(r => <RoleBlock key={r.title} {...r} accentColor="var(--indigo)" />)}
+          {/* ── TICKER ── */}
+          <div style={{ background: 'var(--white)', borderBottom: '1px solid var(--line)', height: 38, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
+            <div style={{ flexShrink: 0, height: '100%', display: 'flex', alignItems: 'center', gap: 6, padding: '0 16px', borderRight: '1px solid var(--line)', background: 'var(--indigo-l)' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', boxShadow: '0 0 0 2px rgba(99,102,241,0.25)', flexShrink: 0 }} />
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--indigo)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 500 }}>Live Market</span>
+            </div>
+            <div style={{ flex: 1, overflow: 'hidden', position: 'relative', height: '100%' }}>
+              <div className="tk" style={{ display: 'inline-flex', alignItems: 'center', height: '100%', whiteSpace: 'nowrap' }}>
+                {tickerItems.map((it, i) => <TickerChip key={`a${i}`} item={it} liveQuotes={liveQuotes} />)}
+              </div>
+              <div className="tk2" aria-hidden style={{ display: 'inline-flex', alignItems: 'center', height: '100%', whiteSpace: 'nowrap', position: 'absolute', top: 0, left: 0 }}>
+                {tickerItems.map((it, i) => <TickerChip key={`b${i}`} item={it} liveQuotes={liveQuotes} />)}
               </div>
             </div>
-            <div>
-              <ColLabel text="Software & Engineering" color="var(--teal)" />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-                {softwareRoles.map(r => <RoleBlock key={r.title} {...r} accentColor="var(--teal)" />)}
+          </div>
+
+          <main style={{ ...wrap, paddingTop: 0, paddingBottom: 120 }}>
+
+            {/* ── HERO ── */}
+            <section aria-label="Hero" style={{ paddingTop: 88, paddingBottom: 80 }}>
+              <div className="fu d1" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'var(--indigo-l)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 100, padding: '5px 12px', marginBottom: 28 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', flexShrink: 0 }} />
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--indigo)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500 }}>Computing &amp; Financial Management · Waterloo</span>
               </div>
+
+              <h1 className="fu d2" style={{
+                fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+                fontWeight: 800, lineHeight: 1.1,
+                letterSpacing: '-0.04em',
+                color: 'var(--t1)',
+                marginBottom: 22,
+                fontFamily: 'var(--sans)',
+                maxWidth: 850,
+              }}>
+                Where capital <span style={{ color: 'var(--indigo)' }}>powers</span> with code <br />
+                <span style={{ color: 'var(--indigo)' }}>Poneesh</span> · पुनीश · ਪੁਨੀਸ਼
+              </h1>
+
+              <p className="fu d3" style={{ fontSize: 16, fontWeight: 400, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 500, marginBottom: 36 }}>
+                CFM student at the University of Waterloo building at the intersection of quantitative finance and full-stack software development.
+              </p>
+
+              <div className="fu d4" style={{ display: 'flex', gap: 10, marginBottom: 64 }}>
+                <a href="#resumes" style={{ background: 'var(--indigo)', color: '#fff', padding: '12px 28px', borderRadius: 8, fontSize: 14, fontWeight: 600, transition: 'opacity .15s', boxShadow: '0 4px 14px rgba(99,102,241,0.35)' }}>
+                  View Resumes
+                </a>
+                <a href="#projects" className="cta-ghost" style={{ background: 'var(--white)', border: '1px solid var(--line)', color: 'var(--t1)', padding: '12px 28px', borderRadius: 8, fontSize: 14, fontWeight: 500, transition: 'background .15s', boxShadow: 'var(--shadow)' }}>
+                  Projects →
+                </a>
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* ── EXPERIENCE ── */}
+            <section id="experience" style={{ paddingTop: 72, paddingBottom: 72 }}>
+              <SecLabel n="01" title="Professional Experience" />
+
+              <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+                <div>
+                  <ColLabel text="Finance & Research" color="var(--indigo)" />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                    {financeRoles.map(r => <RoleBlock key={r.title} {...r} accentColor="var(--indigo)" />)}
+                  </div>
+                </div>
+                <div>
+                  <ColLabel text="Software & Engineering" color="var(--teal)" />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                    {softwareRoles.map(r => <RoleBlock key={r.title} {...r} accentColor="var(--teal)" />)}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* ── VOLUNTEERING ── */}
+            <section id="volunteering" style={{ paddingTop: 72, paddingBottom: 72 }}>
+              <SecLabel n="02" title="Volunteering" />
+              <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+                {volunteerRoles.map(r => (
+                  <RoleBlock key={r.title} {...r} accentColor="var(--indigo)" />
+                ))}
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* ── PROJECTS ── */}
+            <section id="projects" style={{ paddingTop: 72, paddingBottom: 72 }}>
+              <SecLabel n="03" title="Selected Projects" />
+
+              <div style={{ display: 'flex', gap: 6, marginTop: 28, marginBottom: 28 }}>
+                {filters.map(f => (
+                  <button key={f} onClick={() => setFilter(f)} className="filter-pill" style={{
+                    fontSize: 12, fontWeight: 600, padding: '6px 16px', borderRadius: 100,
+                    border: filter === f ? '1.5px solid var(--indigo)' : '1px solid var(--line)',
+                    background: filter === f ? 'var(--indigo)' : 'var(--white)',
+                    color: filter === f ? '#fff' : 'var(--t2)',
+                    boxShadow: filter === f ? '0 2px 8px rgba(99,102,241,0.25)' : 'var(--shadow)',
+                    transition: 'all .15s',
+                  }}>
+                    {f}
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {visibleProjects.map(p => (
+                  <article key={p.title} className="proj-card" style={{
+                    background: 'var(--white)', borderRadius: 14, overflow: 'hidden',
+                    boxShadow: 'var(--shadow)', display: 'flex', flexDirection: 'column',
+                  }}>
+                    <div style={{ height: 4, background: p.tag === 'Finance' ? 'linear-gradient(90deg, var(--indigo), #818CF8)' : 'linear-gradient(90deg, var(--teal), #2DD4BF)' }} />
+                    <div style={{ padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', flex: 1, gap: 14 }}>
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                          <span style={{
+                            fontSize: 10, fontWeight: 600, fontFamily: 'var(--mono)', letterSpacing: '0.12em', textTransform: 'uppercase',
+                            color: p.tag === 'Finance' ? 'var(--indigo)' : 'var(--teal)',
+                            background: p.tag === 'Finance' ? 'var(--indigo-l)' : 'var(--teal-l)',
+                            padding: '2px 8px', borderRadius: 100,
+                          }}>{p.tag}</span>
+                          <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)' }}>{p.year}</span>
+                        </div>
+                        <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', marginBottom: 8 }}>{p.title}</h3>
+                        <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--t2)' }}>{p.description}</p>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                          {p.tech.map(t => (
+                            <span key={t} style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t2)', background: 'var(--bg)', border: '1px solid var(--line)', padding: '2px 8px', borderRadius: 4 }}>{t}</span>
+                          ))}
+                        </div>
+                        {p.github && (
+                          <a href={p.github} target="_blank" rel="noreferrer"
+                            style={{ fontSize: 12, fontWeight: 600, color: 'var(--indigo)', flexShrink: 0, marginLeft: 12 }}>
+                            View Code →
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* ── RESUMES ── */}
+            <section id="resumes" style={{ paddingTop: 72, paddingBottom: 72 }}>
+              <SecLabel n="04" title="Resumes" />
+              <div style={{ marginTop: 36, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {[
+                  { track: 'Finance & Investments', title: 'Financial Analyst', desc: 'Optimized for asset management and finance. Emphasizes risk modeling, portfolio theory, and $1.2M AUM analysis.', href: '/Poneesh Resume - Finance.pdf', color: 'var(--indigo)', bg: 'var(--indigo-l)', grad: 'linear-gradient(135deg, var(--indigo), #818CF8)' },
+                  { track: 'Software Engineering', title: 'Full-Stack Developer', desc: 'Optimized for high-growth tech and fintech. Emphasizes FastAPI pipelines, Next.js architecture, and real-time data ingestion.', href: '/Poneesh Resume Tech.pdf', color: 'var(--teal)', bg: 'var(--teal-l)', grad: 'linear-gradient(135deg, var(--teal), #2DD4BF)' },
+                ].map(r => (
+                  <a key={r.track} href={r.href} download className="res-card"
+                    style={{ display: 'flex', flexDirection: 'column', gap: 0, borderRadius: 14, overflow: 'hidden', background: 'var(--white)', boxShadow: 'var(--shadow)', border: '1px solid var(--line)' }}>
+                    <div style={{ height: 5, background: r.grad }} />
+                    <div style={{ padding: '24px 24px 20px', display: 'flex', flexDirection: 'column', gap: 16, flex: 1 }}>
+                      <div>
+                        <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: r.color, letterSpacing: '0.16em', textTransform: 'uppercase', display: 'block', marginBottom: 8, fontWeight: 500 }}>{r.track}</span>
+                        <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--t1)', marginBottom: 10, letterSpacing: '-0.02em' }}>{r.title}</h3>
+                        <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--t2)' }}>{r.desc}</p>
+                      </div>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: r.bg, color: r.color, fontSize: 12, fontWeight: 600, padding: '7px 14px', borderRadius: 8, alignSelf: 'flex-start', marginTop: 'auto' }}>
+                        Download PDF ↓
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </section>
+
+            <Divider />
+
+            {/* ── CONTACT ── */}
+            <section id="contact" style={{ paddingTop: 72, paddingBottom: 72 }}>
+              <SecLabel n="05" title="Get in Touch" />
+              <p style={{ marginTop: 16, marginBottom: 32, fontSize: 15, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 460 }}>
+                Interested in fintech, quant research, or scalable systems? Let's connect. I'm actively seeking co-op roles for 2026.
+              </p>
+              <div style={{ display: 'flex', gap: 12 }}>
+                {[
+                  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/poneeshkumar', hint: 'Professional updates', color: 'var(--indigo)' },
+                  { label: 'GitHub',   href: 'https://github.com/PoneeshKumar',          hint: 'Code & contributions',  color: 'var(--indigo)' },
+                  { label: 'Email',    href: 'mailto:poneesh.kumar@uwaterloo.ca',         hint: 'poneesh.kumar@uwaterloo.ca', color: 'var(--indigo)' },
+                ].map(l => (
+                  <a key={l.label} href={l.href} className="contact-a"
+                    style={{ display: 'flex', flexDirection: 'column', gap: 3, padding: '14px 18px', background: 'var(--white)', border: '1.5px solid var(--line)', borderRadius: 10, boxShadow: 'var(--shadow)', transition: 'border-color .15s, box-shadow .15s' }}>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t1)' }}>{l.label}</span>
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t2)' }}>{l.hint}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          </main>
+
+          {/* ── FOOTER ── */}
+          <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--white)', padding: '20px 28px' }}>
+            <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: 12, color: 'var(--t3)' }}>© {new Date().getFullYear()} Poneesh Kumar</span>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)' }}>Built with Vite · React · TypeScript</span>
             </div>
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── VOLUNTEERING ── */}
-        <section id="volunteering" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <SecLabel n="02" title="Volunteering" />
-          <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
-            {volunteerRoles.map(r => (
-              <RoleBlock key={r.title} {...r} accentColor="var(--indigo)" />
-            ))}
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── PROJECTS ── */}
-        <section id="projects" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <SecLabel n="03" title="Selected Projects" />
-
-          <div style={{ display: 'flex', gap: 6, marginTop: 28, marginBottom: 28 }}>
-            {filters.map(f => (
-              <button key={f} onClick={() => setFilter(f)} className="filter-pill" style={{
-                fontSize: 12, fontWeight: 600, padding: '6px 16px', borderRadius: 100,
-                border: filter === f ? '1.5px solid var(--indigo)' : '1px solid var(--line)',
-                background: filter === f ? 'var(--indigo)' : 'var(--white)',
-                color: filter === f ? '#fff' : 'var(--t2)',
-                boxShadow: filter === f ? '0 2px 8px rgba(99,102,241,0.25)' : 'var(--shadow)',
-                transition: 'all .15s',
-              }}>
-                {f}
-              </button>
-            ))}
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-            {visibleProjects.map(p => (
-              <article key={p.title} className="proj-card" style={{
-                background: 'var(--white)', borderRadius: 14, overflow: 'hidden',
-                boxShadow: 'var(--shadow)', display: 'flex', flexDirection: 'column',
-              }}>
-                <div style={{ height: 4, background: p.tag === 'Finance' ? 'linear-gradient(90deg, var(--indigo), #818CF8)' : 'linear-gradient(90deg, var(--teal), #2DD4BF)' }} />
-                <div style={{ padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', flex: 1, gap: 14 }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                      <span style={{
-                        fontSize: 10, fontWeight: 600, fontFamily: 'var(--mono)', letterSpacing: '0.12em', textTransform: 'uppercase',
-                        color: p.tag === 'Finance' ? 'var(--indigo)' : 'var(--teal)',
-                        background: p.tag === 'Finance' ? 'var(--indigo-l)' : 'var(--teal-l)',
-                        padding: '2px 8px', borderRadius: 100,
-                      }}>{p.tag}</span>
-                      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)' }}>{p.year}</span>
-                    </div>
-                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', marginBottom: 8 }}>{p.title}</h3>
-                    <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--t2)' }}>{p.description}</p>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto' }}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                      {p.tech.map(t => (
-                        <span key={t} style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t2)', background: 'var(--bg)', border: '1px solid var(--line)', padding: '2px 8px', borderRadius: 4 }}>{t}</span>
-                      ))}
-                    </div>
-                    {p.github && (
-                      <a href={p.github} target="_blank" rel="noreferrer"
-                        style={{ fontSize: 12, fontWeight: 600, color: 'var(--indigo)', flexShrink: 0, marginLeft: 12 }}>
-                        View Code →
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── RESUMES ── */}
-        <section id="resumes" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <SecLabel n="04" title="Resumes" />
-          <div style={{ marginTop: 36, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-            {[
-              { track: 'Finance & Investments', title: 'Financial Analyst', desc: 'Optimized for asset management and finance. Emphasizes risk modeling, portfolio theory, and $1.2M AUM analysis.', href: '/Poneesh_Resume_Finance.pdf', color: 'var(--indigo)', bg: 'var(--indigo-l)', grad: 'linear-gradient(135deg, var(--indigo), #818CF8)' },
-              { track: 'Software Engineering', title: 'Full-Stack Developer', desc: 'Optimized for high-growth tech and fintech. Emphasizes FastAPI pipelines, Next.js architecture, and real-time data ingestion.', href: '/Poneesh_Resume_Tech.pdf', color: 'var(--teal)', bg: 'var(--teal-l)', grad: 'linear-gradient(135deg, var(--teal), #2DD4BF)' },
-            ].map(r => (
-              <a key={r.track} href={r.href} download className="res-card"
-                style={{ display: 'flex', flexDirection: 'column', gap: 0, borderRadius: 14, overflow: 'hidden', background: 'var(--white)', boxShadow: 'var(--shadow)', border: '1px solid var(--line)' }}>
-                <div style={{ height: 5, background: r.grad }} />
-                <div style={{ padding: '24px 24px 20px', display: 'flex', flexDirection: 'column', gap: 16, flex: 1 }}>
-                  <div>
-                    <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: r.color, letterSpacing: '0.16em', textTransform: 'uppercase', display: 'block', marginBottom: 8, fontWeight: 500 }}>{r.track}</span>
-                    <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--t1)', marginBottom: 10, letterSpacing: '-0.02em' }}>{r.title}</h3>
-                    <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--t2)' }}>{r.desc}</p>
-                  </div>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: r.bg, color: r.color, fontSize: 12, fontWeight: 600, padding: '7px 14px', borderRadius: 8, alignSelf: 'flex-start', marginTop: 'auto' }}>
-                    Download PDF ↓
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ── CONTACT ── */}
-        <section id="contact" style={{ paddingTop: 72, paddingBottom: 72 }}>
-          <SecLabel n="05" title="Get in Touch" />
-          <p style={{ marginTop: 16, marginBottom: 32, fontSize: 15, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 460 }}>
-            Interested in fintech, quant research, or scalable systems? Let's connect. I'm actively seeking co-op roles for 2026.
-          </p>
-          <div style={{ display: 'flex', gap: 12 }}>
-            {[
-              { label: 'LinkedIn', href: 'https://www.linkedin.com/in/poneeshkumar', hint: 'Professional updates', color: 'var(--indigo)' },
-              { label: 'GitHub',   href: 'https://github.com/PoneeshKumar',          hint: 'Code & contributions',  color: 'var(--indigo)' },
-              { label: 'Email',    href: 'mailto:poneesh.kumar@uwaterloo.ca',         hint: 'poneesh.kumar@uwaterloo.ca', color: 'var(--indigo)' },
-            ].map(l => (
-              <a key={l.label} href={l.href} className="contact-a"
-                style={{ display: 'flex', flexDirection: 'column', gap: 3, padding: '14px 18px', background: 'var(--white)', border: '1.5px solid var(--line)', borderRadius: 10, boxShadow: 'var(--shadow)', transition: 'border-color .15s, box-shadow .15s' }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t1)' }}>{l.label}</span>
-                <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t2)' }}>{l.hint}</span>
-              </a>
-            ))}
-          </div>
-        </section>
-      </main>
-
-      {/* ── FOOTER ── */}
-      <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--white)', padding: '20px 28px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 12, color: 'var(--t3)' }}>© {new Date().getFullYear()} Poneesh Kumar</span>
-          <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)' }}>Built with Vite · React · TypeScript</span>
-        </div>
-      </footer>
+          </footer>
+        </motion.div>
+      )}
     </>
   )
 }
