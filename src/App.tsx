@@ -1,916 +1,541 @@
 import { useEffect, useMemo, useState } from 'react'
-
+ 
 type TickerItem = {
-  label: string
-  symbol: string
-  value: string
-  delta: string
-  direction: 'up' | 'down' | 'flat'
-  category: 'market' | 'dev'
+  label: string; symbol: string; value: string; delta: string
+  direction: 'up' | 'down' | 'flat'; category: 'market' | 'dev'
 }
-
-type LiveQuote = {
-  value: string
-  delta: string
-  direction: 'up' | 'down' | 'flat'
-}
-
+type LiveQuote = { value: string; delta: string; direction: 'up' | 'down' | 'flat' }
 type LiveQuoteMap = Record<string, LiveQuote>
-
-type Project = {
-  title: string
-  tag: 'Finance' | 'Software'
-  description: string
-  tech: string[]
-  github?: string
-}
-
+type Project = { title: string; tag: 'Finance' | 'Software'; description: string; tech: string[]; github?: string; year: string }
+ 
 const marketItems: TickerItem[] = [
-  {
-    label: 'S&P 500',
-    symbol: '^GSPC',
-    value: '4,972.33',
-    delta: '+1.12%',
-    direction: 'up',
-    category: 'market',
-  },
-  {
-    label: 'Nasdaq 100',
-    symbol: '^NDX',
-    value: '17,842.10',
-    delta: '+0.87%',
-    direction: 'up',
-    category: 'market',
-  },
-  {
-    label: 'TSX',
-    symbol: '^GSPTSE',
-    value: '21,145.60',
-    delta: '+0.42%',
-    direction: 'up',
-    category: 'market',
-  },
-  {
-    label: '10Y Gov Bond',
-    symbol: 'TNX',
-    value: '3.94%',
-    delta: '-0.06%',
-    direction: 'down',
-    category: 'market',
-  },
+  { label: 'S&P 500',  symbol: '^GSPC',   value: '4,972.33',  delta: '+1.12%', direction: 'up',   category: 'market' },
+  { label: 'Nasdaq',   symbol: '^NDX',    value: '17,842.10', delta: '+0.87%', direction: 'up',   category: 'market' },
+  { label: 'TSX',      symbol: '^GSPTSE', value: '21,145.60', delta: '+0.42%', direction: 'up',   category: 'market' },
+  { label: '10Y Bond', symbol: 'TNX',     value: '3.94%',     delta: '-0.06%', direction: 'down', category: 'market' },
 ]
-
 const devItems: TickerItem[] = [
-  {
-    label: 'Latest Commit',
-    symbol: 'portfolio-ticker',
-    value: '\"code meets capital\"',
-    delta: 'React • TypeScript • Tailwind',
-    direction: 'flat',
-    category: 'dev',
-  },
-  {
-    label: 'Fintech Focus',
-    symbol: 'FinTech',
-    value: 'Software × Finance',
-    delta: 'Products, payments, and tooling',
-    direction: 'flat',
-    category: 'dev',
-  },
-  {
-    label: 'Now Building',
-    symbol: 'Projects',
-    value: 'CFM portfolio models',
-    delta: 'CFM 101 · UW coursework',
-    direction: 'flat',
-    category: 'dev',
-  },
-  {
-    label: 'Featured App',
-    symbol: 'FindMyVibe',
-    value: 'Music taste matcher',
-    delta: 'Full-stack web experience',
-    direction: 'flat',
-    category: 'dev',
-  },
+  { label: 'Stack',    symbol: 'ENV', value: 'React · TS · Tailwind', delta: 'v2025', direction: 'flat', category: 'dev' },
+  { label: 'Focus',    symbol: 'CFM', value: 'Finance × Software',    delta: 'UW',    direction: 'flat', category: 'dev' },
+  { label: 'Building', symbol: 'WIP', value: 'CFM portfolio models',  delta: 'live',  direction: 'flat', category: 'dev' },
 ]
-
+ 
 const projects: Project[] = [
   {
-    title: 'ArtiCue',
-    tag: 'Software',
-    description: 'AI-powered speech therapy platform using Gemini 2.5 Flash and ElevenLabs to provide children with real-time articulation feedback—a project that earned us seed support and mentorship from Google engineers as a Top 12 winner',
-    tech: ['Next.js 16, TypeScript, Tailwind CSS, Lottie, Gemini 2.5 Flash, ElevenLabs, Firebase Firestore, Auth0, Vercel, PubMed, Semantic Scholar, ERIC, and OpenAlex APIs'],
-    github: 'https://youtu.be/nndhehSQGhc?si=lHNnGRCW9dgAOwoC '
+    title: 'ArtiCue', tag: 'Software', year: '2025',
+    description: 'AI-powered speech therapy using Gemini 2.5 Flash and ElevenLabs for real-time articulation feedback. Top 12 at Google hackathon — earned seed support and mentorship.',
+    tech: ['Next.js 16', 'TypeScript', 'Gemini 2.5', 'ElevenLabs', 'Firebase', 'Auth0'],
+    github: 'https://youtu.be/nndhehSQGhc?si=lHNnGRCW9dgAOwoC',
   },
-
   {
-    title: 'CFM 101 – Model-Driven Portfolio',
-    tag: 'Finance',
-    description:
-      'Built a quantitative, model-driven portfolio that used modern portfolio theory, risk analysis, and data-driven asset selection to outperform the benchmark by ~5% over five days.',
-    tech: ['Python', 'Pandas', 'Portfolio theory'],
+    title: 'CFM 101 — Model Portfolio', tag: 'Finance', year: '2025',
+    description: 'Quantitative portfolio using modern portfolio theory, risk analysis, and data-driven asset selection. Outperformed the benchmark by ~5% over five days.',
+    tech: ['Python', 'Pandas', 'Portfolio Theory'],
     github: 'https://github.com/IanLeung12/CFM-Group-Project',
   },
   {
-    title: 'FindMyVibe – Audio Taste Matcher',
-    tag: 'Software',
-    description:
-      'Web app that recommends songs based on mood and listening preferences, with a Python backend and a modern, responsive frontend.',
+    title: 'FindMyVibe', tag: 'Software', year: '2024',
+    description: 'Full-stack app recommending songs based on mood and listening preferences. Python backend, modern responsive frontend.',
     tech: ['Python', 'HTML', 'JavaScript'],
     github: 'https://github.com/tanvibatchu/FindMyVibe-ATM',
   },
   {
-    title: 'Developer Portfolio Website',
-    tag: 'Software',
-    description:
-      'This site – a polished, responsive portfolio for showcasing fintech and software projects, with a live-feeling ticker and focused storytelling.',
+    title: 'Portfolio Website', tag: 'Software', year: '2025',
+    description: 'This site — responsive portfolio with a live financial ticker, dual-track resume system, and clean layout.',
     tech: ['Vite', 'React', 'Tailwind'],
     github: 'https://github.com/PoneeshKumar/Portfolio-Website',
   },
 ]
-
+ 
+const financeRoles = [
+  { title: 'Financial Analyst', org: 'UW Wealth Management', period: 'Jan 2026 – Present',
+    bullets: ['Built quantitative Excel frameworks for returns, benchmarks, and risk metrics.', 'Maintained structured performance and tracking models for analysis.', 'Automated performance reporting to visualise portfolio trends.'] },
+  { title: 'M&A Research Analyst', org: 'UW Finance Association', period: 'Jan 2026 – Present',
+    bullets: ['Identified acquisition opportunities through industry and market research.', 'Benchmarked valuation multiples via comps and precedent transactions.', 'Produced executive-ready slides and memos for management.'] },
+  { title: 'Investment Analyst', org: 'UW FinTech Club', period: 'Oct 2025 – Present',
+    bullets: ['Built DCF models for valuation-driven investment recommendations.', 'Monitored a student-managed equity portfolio across fintech positions.', 'Pitched ideas to the investment committee with fellow analysts.'] },
+  { title: 'Bookkeeper', org: 'KumaraShivShakti Inc.', period: 'Sep 2024 – Present',
+    bullets: ['Improved reporting accuracy for a $7M+ real-estate portfolio.', 'Built automated dashboards and forecasting tools for leadership.', 'Developed KPI frameworks with real-time operational visibility.'] },
+]
+ 
+const softwareRoles = [
+  { title: 'Co-Founder & CTO', org: 'ArtiCue', period: 'Mar 2025 – Present',
+    bullets: ['Architected AI speech therapy platform — Top 12 at Google hackathon.', 'Engineered scalable real-time pipelines for articulation feedback.', 'Led full product and engineering roadmap from 0 → production.'] },
+  { title: 'Software Engineer (Finance)', org: 'Marble Investments', period: 'Jan 2026 – Present',
+    bullets: ['Built internal tooling for research, portfolio monitoring, and workflows.', 'Integrated Massive API for real-time market data pipelines.', 'Developed quantitative dashboards tracking performance and signals.'] },
+  { title: 'Data & Research Analyst', org: 'Nodal Research', period: 'Jan 2026 – Present',
+    bullets: ['Assessed portfolio risk for a $1.2M AUM fund using volatility metrics.', 'Built Python workflows to clean and analyse large financial time-series.', 'Delivered actionable quantitative findings to investment teams.'] },
+]
+ 
 const filters = ['All', 'Finance', 'Software'] as const
 type Filter = (typeof filters)[number]
-
-function App() {
+ 
+const CSS = `
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+ 
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+:root {
+  --bg:        #F7F6F2;
+  --white:     #FFFFFF;
+  --line:      #E4E1DA;
+  --line2:     #D0CDC5;
+  --t1:        #111110;
+  --t2:        #6B6760;
+  --t3:        #B0ADA6;
+  --indigo:    #4F46E5;
+  --indigo-l:  #EEF0FD;
+  --teal:      #0D9488;
+  --teal-l:    #EDFAF8;
+  --up:        #059669;
+  --dn:        #DC2626;
+  --up-bg:     #ECFDF5;
+  --dn-bg:     #FEF2F2;
+  --mono:      'DM Mono', ui-monospace, monospace;
+  --sans:      'Plus Jakarta Sans', system-ui, sans-serif;
+  --shadow:    0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+}
+ 
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--t1); font-family: var(--sans); font-weight: 400; -webkit-font-smoothing: antialiased; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--sans); }
+ 
+@keyframes tk  { from { transform: translateX(0)   } to { transform: translateX(-50%) } }
+@keyframes tk2 { from { transform: translateX(50%) } to { transform: translateX(0)    } }
+.tk  { animation: tk  44s linear infinite; }
+.tk2 { animation: tk2 44s linear infinite; }
+ 
+@keyframes fu { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:translateY(0) } }
+.fu  { animation: fu .6s ease both; opacity:0; }
+.d1  { animation-delay: .05s }
+.d2  { animation-delay: .16s }
+.d3  { animation-delay: .27s }
+.d4  { animation-delay: .38s }
+.d5  { animation-delay: .49s }
+ 
+.nav-a { transition: color .15s; }
+.nav-a:hover { color: var(--indigo) !important; }
+ 
+.proj-card { transition: box-shadow .2s, transform .2s; }
+.proj-card:hover { box-shadow: var(--shadow-md) !important; transform: translateY(-2px); }
+ 
+.res-card { transition: box-shadow .2s, transform .2s, border-color .2s; }
+.res-card:hover { box-shadow: var(--shadow-md) !important; transform: translateY(-2px); }
+ 
+.contact-a { transition: border-color .15s, box-shadow .15s; }
+.contact-a:hover { border-color: var(--indigo) !important; box-shadow: 0 0 0 3px var(--indigo-l); }
+ 
+.filter-pill { transition: all .15s; }
+.filter-pill:hover { border-color: var(--indigo) !important; color: var(--indigo) !important; }
+ 
+.cta-ghost:hover { background: var(--line) !important; }
+ 
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line2); border-radius: 4px; }
+`
+ 
+export default function App() {
   const [filter, setFilter] = useState<Filter>('All')
   const [liveQuotes, setLiveQuotes] = useState<LiveQuoteMap>({})
-
+ 
   const visibleProjects = useMemo(
-    () =>
-      filter === 'All'
-        ? projects
-        : projects.filter((p) => p.tag === filter),
+    () => filter === 'All' ? projects : projects.filter(p => p.tag === filter),
     [filter],
   )
-
-  const tickerItems = useMemo(
-    () => [...marketItems, ...devItems, ...marketItems, ...devItems],
-    [],
-  )
-
+  const tickerItems = useMemo(() => [...marketItems, ...devItems, ...marketItems, ...devItems], [])
+ 
   useEffect(() => {
-    const controller = new AbortController()
-
-    async function loadQuotes() {
-      const symbols = ['^GSPC', '^NDX', '^GSPTSE', '^TNX']
-
+    const ctrl = new AbortController()
+    async function load() {
       try {
-        const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols.join(','))}`
-        const response = await fetch(url, { signal: controller.signal })
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`)
+        const syms = ['^GSPC', '^NDX', '^GSPTSE', '^TNX']
+        const res = await fetch(
+          `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(syms.join(','))}`,
+          { signal: ctrl.signal },
+        )
+        if (!res.ok) throw new Error()
+        const data = (await res.json()) as {
+          quoteResponse?: { result?: { symbol?: string; regularMarketPrice?: number; regularMarketChangePercent?: number }[] }
         }
-
-        // Yahoo Finance quote response shape (simplified)
-        const data = (await response.json()) as {
-          quoteResponse?: { result?: Array<{ symbol?: string; regularMarketPrice?: number; regularMarketChangePercent?: number }> }
-        }
-
-        const result = data.quoteResponse?.result ?? []
         const next: LiveQuoteMap = {}
-
-        for (const quote of result) {
-          if (!quote.symbol || quote.regularMarketPrice == null || quote.regularMarketChangePercent == null) {
-            continue
-          }
-
-          const isYield = quote.symbol === 'TNX'
-          const price = quote.regularMarketPrice
-          const changePct = quote.regularMarketChangePercent
-
-          const formattedValue = isYield
-            ? `${price.toFixed(2)}%`
-            : price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-
-          const direction: LiveQuote['direction'] =
-            changePct > 0 ? 'up' : changePct < 0 ? 'down' : 'flat'
-
-          const formattedDelta = `${changePct > 0 ? '+' : ''}${changePct.toFixed(2)}%`
-
-          next[quote.symbol] = {
-            value: formattedValue,
-            delta: formattedDelta,
-            direction,
+        for (const q of data.quoteResponse?.result ?? []) {
+          if (!q.symbol || q.regularMarketPrice == null || q.regularMarketChangePercent == null) continue
+          const pct = q.regularMarketChangePercent
+          next[q.symbol] = {
+            value: q.symbol === 'TNX'
+              ? `${q.regularMarketPrice.toFixed(2)}%`
+              : q.regularMarketPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+            delta: `${pct > 0 ? '+' : ''}${pct.toFixed(2)}%`,
+            direction: pct > 0 ? 'up' : pct < 0 ? 'down' : 'flat',
           }
         }
-
-        if (Object.keys(next).length) {
-          setLiveQuotes(next)
-        }
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') {
-          return
-        }
-        // If the live request fails (e.g., CORS), we silently fall back to the static values.
-        // eslint-disable-next-line no-console
-        console.warn('Falling back to static ticker values.', error)
-      }
+        if (Object.keys(next).length) setLiveQuotes(next)
+      } catch { /* silent fallback */ }
     }
-
-    loadQuotes()
-    const id = window.setInterval(loadQuotes, 60_000)
-
-    return () => {
-      controller.abort()
-      window.clearInterval(id)
-    }
+    load()
+    const id = setInterval(load, 60_000)
+    return () => { ctrl.abort(); clearInterval(id) }
   }, [])
-
+ 
+  const wrap: React.CSSProperties = { maxWidth: 1000, margin: '0 auto', padding: '0 28px' }
+ 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <header className="border-b border-slate-800/60 bg-slate-950/80 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-400 shadow-[0_0_20px_rgba(56,189,248,0.65)]" />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-                Fintech · Software · CFM
-              </p>
-              <p className="text-sm text-slate-300">
-                University of Waterloo · CFM
-              </p>
-            </div>
+    <>
+      <style>{CSS}</style>
+ 
+      {/* ── HEADER ── */}
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(247,246,242,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--line)' }}>
+        <div style={{ ...wrap, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--indigo)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'var(--mono)', fontSize: 11, fontWeight: 500, color: '#fff', letterSpacing: '-0.02em' }}>PK</span>
+            </span>
+            <span style={{ fontFamily: 'var(--sans)', fontSize: 14, fontWeight: 700, color: 'var(--t1)', letterSpacing: '-0.01em' }}>Poneesh Kumar</span>
+            <span style={{ fontSize: 12, color: 'var(--t3)', paddingLeft: 10, borderLeft: '1px solid var(--line2)' }}>CFM · UW</span>
           </div>
-          <nav className="hidden gap-6 text-sm text-slate-300 md:flex">
-            <a href="#experience" className="hover:text-sky-400">
-              Experience
-            </a>
-            <a href="#stories" className="hover:text-sky-400">
-              Stories
-            </a>
-            <a href="#projects" className="hover:text-sky-400">
-              Projects
-            </a>
-            <a href="#resume" className="hover:text-sky-400">
-              Resumes
-            </a>
-            <a href="#contact" className="hover:text-sky-400">
-              Contact
-            </a>
+          <nav style={{ display: 'flex', gap: 24 }}>
+            {['Experience', 'Stories', 'Projects', 'Resumes', 'Contact'].map(n => (
+              <a key={n} href={`#${n.toLowerCase()}`} className="nav-a"
+                style={{ fontSize: 13, fontWeight: 500, color: 'var(--t2)', letterSpacing: '-0.01em' }}>
+                {n}
+              </a>
+            ))}
           </nav>
         </div>
       </header>
-
-      <main className="mx-auto max-w-5xl px-4 pb-16 pt-6 md:pt-10">
-        <section
-          aria-label="Market and developer ticker"
-          className="mb-8 md:mb-10"
-        >
-          <div className="relative overflow-hidden rounded-2xl border border-slate-800/80 bg-slate-900/70 shadow-[0_18px_60px_rgba(15,23,42,0.85)]">
-            <div className="flex items-center gap-3 border-b border-slate-800/70 px-4 py-2 text-xs uppercase tracking-[0.25em] text-slate-400">
-              <span className="relative flex h-2.5 w-2.5 items-center justify-center">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              </span>
-              <span>Market · Dev Ticker</span>
-              <span className="rounded-full bg-slate-800/80 px-2 py-0.5 text-[0.65rem] font-medium text-slate-300">
-                Live where available · Static fallback
-              </span>
+ 
+      {/* ── TICKER ── */}
+      <div style={{ background: 'var(--white)', borderBottom: '1px solid var(--line)', height: 38, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
+        <div style={{ flexShrink: 0, height: '100%', display: 'flex', alignItems: 'center', gap: 6, padding: '0 16px', borderRight: '1px solid var(--line)', background: 'var(--indigo-l)' }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', boxShadow: '0 0 0 2px rgba(79,70,229,0.25)', flexShrink: 0 }} />
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--indigo)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 500 }}>Live</span>
+        </div>
+        <div style={{ flex: 1, overflow: 'hidden', position: 'relative', height: '100%' }}>
+          <div className="tk" style={{ display: 'inline-flex', alignItems: 'center', height: '100%', whiteSpace: 'nowrap' }}>
+            {tickerItems.map((it, i) => <TickerChip key={`a${i}`} item={it} liveQuotes={liveQuotes} />)}
+          </div>
+          <div className="tk2" aria-hidden style={{ display: 'inline-flex', alignItems: 'center', height: '100%', whiteSpace: 'nowrap', position: 'absolute', top: 0, left: 0 }}>
+            {tickerItems.map((it, i) => <TickerChip key={`b${i}`} item={it} liveQuotes={liveQuotes} />)}
+          </div>
+        </div>
+      </div>
+ 
+      <main style={{ ...wrap, paddingTop: 0, paddingBottom: 120 }}>
+ 
+        {/* ── HERO ── */}
+        <section aria-label="Hero" style={{ paddingTop: 88, paddingBottom: 80 }}>
+          {/* Badge */}
+          <div className="fu d1" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'var(--indigo-l)', border: '1px solid rgba(79,70,229,0.2)', borderRadius: 100, padding: '5px 12px', marginBottom: 28 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', flexShrink: 0 }} />
+            <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--indigo)', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 500 }}>Computing &amp; Financial Management · UW</span>
+          </div>
+ 
+          <h1 className="fu d2" style={{
+            fontSize: 'clamp(2.8rem, 7vw, 5.2rem)',
+            fontWeight: 800, lineHeight: 1.05,
+            letterSpacing: '-0.04em',
+            color: 'var(--t1)',
+            marginBottom: 22,
+            fontFamily: 'var(--sans)',
+            maxWidth: 740,
+          }}>
+            Where code <span style={{ color: 'var(--indigo)' }}>meets</span><br />
+            <span style={{ color: 'var(--teal)' }}>capital.</span>
+          </h1>
+ 
+          <p className="fu d3" style={{ fontSize: 16, fontWeight: 400, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 500, marginBottom: 36 }}>
+            CFM student at Waterloo building at the intersection of software and finance — from quantitative portfolios to full-stack production apps.
+          </p>
+ 
+          {/* Skill chips */}
+          <div className="fu d4" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 36 }}>
+            {['Fintech & Product', 'Type-Safe Frontends', 'Portfolio Theory', 'Full-Stack'].map(chip => (
+              <span key={chip} style={{ fontSize: 12, fontWeight: 500, color: 'var(--t2)', background: 'var(--white)', border: '1px solid var(--line)', borderRadius: 100, padding: '4px 12px' }}>{chip}</span>
+            ))}
+          </div>
+ 
+          <div className="fu d4" style={{ display: 'flex', gap: 10, marginBottom: 64 }}>
+            <a href="#resumes" style={{ background: 'var(--indigo)', color: '#fff', padding: '10px 24px', borderRadius: 8, fontSize: 14, fontWeight: 600, transition: 'opacity .15s', boxShadow: '0 4px 14px rgba(79,70,229,0.35)' }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
+              View Resumes
+            </a>
+            <a href="#projects" className="cta-ghost" style={{ background: 'var(--white)', border: '1px solid var(--line)', color: 'var(--t1)', padding: '10px 24px', borderRadius: 8, fontSize: 14, fontWeight: 500, transition: 'background .15s', boxShadow: 'var(--shadow)' }}>
+              Projects →
+            </a>
+          </div>
+ 
+          {/* Stats */}
+          <div className="fu d5" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+            {[
+              { val: '4+',     lbl: 'Active roles',      color: 'var(--indigo)', bg: 'var(--indigo-l)' },
+              { val: '$1.2M',  lbl: 'AUM analysed',      color: 'var(--teal)',   bg: 'var(--teal-l)'   },
+              { val: '$7M+',   lbl: 'RE portfolio',      color: 'var(--indigo)', bg: 'var(--indigo-l)' },
+              { val: 'Top 12', lbl: 'Google hackathon',  color: 'var(--teal)',   bg: 'var(--teal-l)'   },
+            ].map(s => (
+              <div key={s.lbl} style={{ background: s.bg, borderRadius: 12, padding: '18px 20px', border: `1px solid ${s.color}22` }}>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 24, fontWeight: 500, color: s.color, letterSpacing: '-0.03em', marginBottom: 4 }}>{s.val}</div>
+                <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--t2)' }}>{s.lbl}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+ 
+        <Divider />
+ 
+        {/* ── EXPERIENCE ── */}
+        <section id="experience" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <SecLabel n="01" title="Experience" />
+ 
+          <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+            <div>
+              <ColLabel text="Finance & Investment" color="var(--indigo)" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                {financeRoles.map(r => <RoleBlock key={r.title} {...r} accentColor="var(--indigo)" />)}
+              </div>
             </div>
-
-            <div className="relative flex h-12 items-center overflow-hidden bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 text-xs sm:text-sm">
-              <div className="animate-marquee flex min-w-full items-center gap-6 whitespace-nowrap px-4">
-                {tickerItems.map((item, index) => (
-                  <TickerChip
-                    item={item}
-                    liveQuotes={liveQuotes}
-                    key={`${item.label}-${index}`}
-                  />
+            <div>
+              <ColLabel text="Software & Engineering" color="var(--teal)" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+                {softwareRoles.map(r => <RoleBlock key={r.title} {...r} accentColor="var(--teal)" />)}
+              </div>
+            </div>
+          </div>
+ 
+          {/* Certs */}
+          <div style={{ marginTop: 52, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, borderTop: '1px solid var(--line)', paddingTop: 36 }}>
+            {[
+              { label: 'Finance Certifications', color: 'var(--indigo)', bg: 'var(--indigo-l)', items: ['CFI Financial Analysis and Modelling', 'CFI Corporate Finance Foundations', 'PMI Finance Foundations: Risk Management'] },
+              { label: 'Tech & Quant Certifications', color: 'var(--teal)', bg: 'var(--teal-l)', items: ['Quantitative Finance & Algo Trading in Python', 'Microsoft Security Essentials', 'SQL for Finance'] },
+            ].map(g => (
+              <div key={g.label} style={{ background: g.bg, borderRadius: 12, padding: '20px 22px', border: `1px solid ${g.color}22` }}>
+                <p style={{ fontFamily: 'var(--mono)', fontSize: 9, color: g.color, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 14, fontWeight: 500 }}>{g.label}</p>
+                {g.items.map(it => (
+                  <div key={it} style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'flex-start' }}>
+                    <span style={{ color: g.color, flexShrink: 0, marginTop: 1, fontSize: 10 }}>✦</span>
+                    <span style={{ fontSize: 13, color: 'var(--t2)', lineHeight: 1.5 }}>{it}</span>
+                  </div>
                 ))}
               </div>
-              <div
-                className="animate-marquee2 pointer-events-none absolute inset-0 flex min-w-full items-center gap-6 whitespace-nowrap px-4"
-                aria-hidden="true"
-              >
-                {tickerItems.map((item, index) => (
-                  <TickerChip
-                    item={item}
-                    liveQuotes={liveQuotes}
-                    key={`ghost-${item.label}-${index}`}
-                  />
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </section>
-
-        <section
-          aria-label="Hero"
-          className="mb-14 grid gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-center"
-        >
-          <div>
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/80 px-3 py-1 text-xs text-slate-300">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span>CFM · University of Waterloo</span>
-            </div>
-            <h1 className="mb-4 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
-              Bridging the gap between{' '}
-              <span className="bg-gradient-to-r from-sky-400 via-emerald-400 to-sky-400 bg-clip-text text-transparent">
-                Finance
-              </span>{' '}
-              and{' '}
-              <span className="bg-gradient-to-r from-emerald-400 to-sky-400 bg-clip-text text-transparent">
-                Scalable Software.
-              </span>
-            </h1>
-            <p className="mb-6 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-              I&apos;m a Computing and Financial Management student at the University
-              of Waterloo with a passion for building products where software and finance meet.
-              From model-driven portfolios to full-stack web apps, I focus on clear engineering
-              that supports real users in the fintech space.
-            </p>
-            <div className="mb-6 flex flex-wrap gap-2">
-              <Pill label="Fintech & Product" />
-              <Pill label="Software & Finance" />
-              <Pill label="Type-Safe Frontends" />
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href="#resume"
-                className="inline-flex items-center justify-center rounded-full bg-sky-500 px-5 py-2.5 text-sm font-medium text-slate-950 shadow-[0_14px_40px_rgba(56,189,248,0.55)] hover:bg-sky-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-              >
-                Pick your resume path
-              </a>
-              <a
-                href="#projects"
-                className="inline-flex items-center justify-center rounded-full border border-slate-700 bg-slate-900/70 px-5 py-2.5 text-sm font-medium text-slate-200 hover:border-sky-500/80 hover:text-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-600 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-              >
-                View selected projects
-              </a>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-slate-800/80 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-950 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.9)]">
-            <div className="mb-3 flex items-center justify-between text-xs text-slate-400">
-              <span>Signal Console</span>
-              <span className="rounded-full bg-slate-800/80 px-2 py-0.5 text-[0.7rem]">
-                Where code meets capital
-              </span>
-            </div>
-            <div className="mb-3 rounded-xl border border-slate-800/80 bg-slate-950/80 p-4 text-xs font-mono text-slate-200">
-              <p className="mb-2 text-[0.7rem] text-slate-400">
-                ./profile --snapshot uwaterloo --focus fintech
-              </p>
-              <div className="space-y-1.5 text-[0.75rem]">
-                <TerminalRow label="Core focus" value="Fintech products · backend systems" />
-                <TerminalRow
-                  label="Recent"
-                  value="CFM 101 model-driven portfolio · full-stack side projects"
-                />
-                <TerminalRow
-                  label="Edge"
-                  value="Strong fundamentals + detail-oriented engineering for product teams"
-                />
+ 
+        <Divider />
+ 
+        {/* ── STORIES ── */}
+        <section id="stories" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <SecLabel n="02" title="Stories" />
+          <div style={{ marginTop: 40, display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[
+              { n: '01', tag: 'Finance',  color: 'var(--indigo)', tagBg: 'var(--indigo-l)', title: 'The Logic',
+                body: 'In CFM 101, we built a quantitative, model-driven portfolio applying modern portfolio theory, risk analysis, and data-driven asset selection to real tickers.',
+                aside: 'Theory is powerful, but the real edge comes from clean data, clear constraints, and code that makes portfolio behaviour easy to explain.' },
+              { n: '02', tag: 'Software', color: 'var(--teal)',   tagBg: 'var(--teal-l)',   title: 'The Build',
+                body: 'On FindMyVibe I learned how much UX, state management, and API design matter when you want people to actually enjoy a product.',
+                aside: 'I now think in terms of data flows, invariants, and failure modes first — then let the UI tell that story as simply as possible.' },
+              { n: '03', tag: 'Product',  color: 'var(--indigo)', tagBg: 'var(--indigo-l)', title: 'The Reasoning',
+                body: 'We built ArtiCue to solve a real gap — 20%+ of Canadian preschoolers face speech issues but families wait 8 months for funded therapy. Private sessions cost up to $4,000/month.',
+                aside: 'The most important part of building software is deeply understanding the problem. Every product decision has to serve that.' },
+            ].map(s => (
+              <div key={s.n} style={{ background: 'var(--white)', borderRadius: 14, padding: '24px 26px', boxShadow: 'var(--shadow)', display: 'grid', gridTemplateColumns: '28px auto 1fr 1fr', gap: '0 24px', alignItems: 'start' }}>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)', paddingTop: 4 }}>{s.n}</span>
+                <span style={{ display: 'inline-flex', alignSelf: 'start', background: s.tagBg, color: s.color, fontSize: 10, fontWeight: 600, fontFamily: 'var(--mono)', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 100, whiteSpace: 'nowrap', marginTop: 2 }}>{s.tag}</span>
+                <div>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', marginBottom: 8 }}>{s.title}</h3>
+                  <p style={{ fontSize: 13, lineHeight: 1.75, color: 'var(--t2)' }}>{s.body}</p>
+                </div>
+                <p style={{ fontSize: 13, lineHeight: 1.75, color: 'var(--t2)', fontStyle: 'italic', borderLeft: `2px solid ${s.color}44`, paddingLeft: 14 }}>{s.aside}</p>
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div className="rounded-xl border border-slate-800/80 bg-slate-950/80 p-3">
-                <p className="text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
-                  Fintech
-                </p>
-                <p className="text-sm font-semibold text-slate-100">
-                  Computing &amp; Financial Management
-                </p>
-                <p className="mt-1 text-[0.7rem] text-slate-400">
-                  Blending software engineering with capital markets and finance.
-                </p>
-              </div>
-              <div className="rounded-xl border border-slate-800/80 bg-slate-950/80 p-3">
-                <p className="text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
-                  Focus
-                </p>
-                <p className="text-sm font-semibold text-slate-100">
-                  Data, products, and tooling
-                </p>
-                <p className="mt-1 text-[0.7rem] text-slate-400">
-                  Building systems that make financial decisions clearer and faster.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
-
-        <section
-          id="experience"
-          aria-label="Experience"
-          className="mb-14 space-y-6"
-        >
-          <SectionHeading
-            eyebrow="Experience"
-            title="Recent roles across finance and software"
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Finance &amp; Investment Experience
-              </h3>
-              <div className="space-y-3 text-xs sm:text-sm">
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    Financial Analyst · University of Waterloo Wealth Management
-                  </p>
-                  <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Managed portfolio records and maintained structured performance and tracking
-                      models for analysis.
-                    </li>
-                    <li>
-                      Built quantitative frameworks in Excel to analyze returns, benchmarks, and
-                      portfolio risk metrics.
-                    </li>
-                    <li>
-                      Applied data-driven market research and screening methods to support
-                      investment thesis development.
-                    </li>
-                    <li>
-                      Automated performance reporting to visualize portfolio trends and key return
-                      drivers.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    M&amp;A Market Research Analyst · UW Finance Association
-                  </p>
-                  <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Identified acquisition opportunities by conducting industry and market research
-                      to support M&amp;A screening efforts.
-                    </li>
-                    <li>
-                      Built target screening lists by assessing strategic fit, financial performance,
-                      and market positioning to prioritize candidates.
-                    </li>
-                    <li>
-                      Benchmarked valuation multiples by analyzing comps and precedent transactions to
-                      support deal evaluation and pricing.
-                    </li>
-                    <li>
-                      Supported investment theses by summarizing findings into executive-ready slides
-                      and memos for management.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    Investment Analyst · UW FinTech Club
-                  </p>
-                  <p className="text-slate-400">Oct 2025 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Evaluated fintech investments by researching companies and market trends to
-                      identify growth opportunities.
-                    </li>
-                    <li>
-                      Built DCF models by forecasting cash flows and terminal values to support
-                      valuation-driven recommendations.
-                    </li>
-                    <li>
-                      Monitored portfolio performance by tracking positions across a student-managed
-                      equity portfolio to identify risks and upside.
-                    </li>
-                    <li>
-                      Influenced investment decisions by collaborating with fellow analysts to pitch
-                      ideas to the investment committee.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    Bookkeeper · KumaraShivShakti Inc.
-                  </p>
-                  <p className="text-slate-400">Sep 2024 – Present · Hamilton, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Designed data-cleaning and validation workflows improving reporting accuracy
-                      for a $7M+ real-estate portfolio.
-                    </li>
-                    <li>
-                      Built automated dashboards and forecasting tools enabling rapid, data-driven
-                      decisions for leadership.
-                    </li>
-                    <li>
-                      Developed KPI frameworks tracking efficiency metrics and providing real-time
-                      operational visibility.
-                    </li>
-                    <li>
-                      Built scalable data pipelines integrating multiple sources to support automated
-                      analytics and workflows.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </article>
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Software &amp; Automation Experience
-              </h3>
-              <div className="mb-3 text-xs text-slate-400">
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    Co-Founder &amp; CTO · Stealth
-                  </p>
-                  <p className="text-slate-400">Mar 2025 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Architected an all-in-one Financial OS integrating real-time banking and an ML-driven risk engine
-                    </li>
-                    <li>
-                      Engineered scalable data pipelines for automated expense categorization and real-time portfolio volatility analysis.
-                    </li>
-                    <li>
-                      Spearheaded secure (SOC 2) roadmaps and freemium models to capture 3M+ users displaced by Mint’s exit
-                    </li>
-                    <li>
-                      Made a personalized market intelligence feed with sentiment tagging automating diversification and risk flags
-                    </li>
-                    </ul>
-                </div>
-                </div>
-              <div className="space-y-3 text-xs sm:text-sm">
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    Software Engineer (Finance) · Marble Investments
-                  </p>
-                  <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Engineered internal financial tooling to automate research, portfolio
-                      monitoring, and investment workflows.
-                    </li>
-                    <li>
-                      Integrated real-time market data via Massive API, building scalable pipelines
-                      for analytics and decision support.
-                    </li>
-                    <li>
-                      Developed quantitative dashboards and analytics systems to track performance,
-                      risk, and trading signals.
-                    </li>
-                    <li>
-                      Built web interfaces to streamline data access and reduce friction between
-                      investment and engineering workflows.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-slate-100">
-                    Data &amp; Research Analyst · Nodal Research
-                  </p>
-                  <p className="text-slate-400">Jan 2026 – Present · Waterloo, ON</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-slate-300">
-                    <li>
-                      Analyzed market and fundamental datasets to identify key return drivers and
-                      portfolio risk exposures.
-                    </li>
-                    <li>
-                      Built Python workflows to clean, merge, and analyze large financial time-series
-                      datasets.
-                    </li>
-                    <li>
-                      Assessed portfolio risk for a $1.2M AUM fund using volatility, correlations, and
-                      drawdown metrics.
-                    </li>
-                    <li>
-                      Transformed quantitative findings into clear, actionable insights for
-                      investment decisions.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </article>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Finance Certifications
-              </h3>
-              <ul className="mt-1 list-disc space-y-1 pl-5 text-xs sm:text-sm text-slate-300">
-                <li>CFI Financial Analysis and Modelling</li>
-                <li>CFI Corporate Finance Foundations</li>
-                <li>PMI Finance Foundations: Risk Management</li>
-              </ul>
-            </article>
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Tech &amp; Quant Certifications
-              </h3>
-              <ul className="mt-1 list-disc space-y-1 pl-5 text-xs sm:text-sm text-slate-300">
-                <li>Quantitative Finance &amp; Algorithmic Trading in Python</li>
-                <li>Microsoft Security Essentials</li>
-                <li>SQL for Finance</li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <section
-          id="stories"
-          aria-label="Stories"
-          className="mb-14 space-y-6"
-        >
-          <SectionHeading eyebrow="Stories" title="How I think about software in finance" />
-          <div className="grid gap-4 md:grid-cols-2">
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Story 1 · The Logic
-              </h3>
-              <p className="text-sm text-slate-300">
-                In a CFM 101 group project, we built a quantitative,
-                model-driven portfolio that applied modern portfolio theory,
-                risk analysis, and data-driven asset selection to a real set of
-                tickers.
-              </p>
-              <p className="text-sm text-slate-400">
-                The biggest lesson: theory is powerful, but the real advantage
-                comes from clean data, clear constraints, and code that makes
-                portfolio behaviour easy to explain.
-              </p>
-            </article>
-
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Story 2 · The Build
-              </h3>
-              <p className="text-sm text-slate-300">
-                On a full-stack web project like <span className="font-semibold">FindMyVibe</span>, I
-                learned how much UX, state management, and API design matter
-                when you want people to actually enjoy using a product.
-              </p>
-              <p className="text-sm text-slate-400">
-                Now I think in terms of <span className="font-semibold">data flows, invariants, and
-                failure modes</span> first—then I let the UI tell that story to
-                users as simply as possible.
-              </p>
-            </article>
-            <article className="flex flex-col gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Story 3 · The Reasoning
-              </h3>
-              <p className="text-sm text-slate-300">
-                We built ArtiCue to solve a critical healthcare gap in Canada, where over 20% of preschoolers face speech impediments but families often endure 8-month waitlists for government-funded therapy. With private sessions costing up to $4,000 per month, many children in rural or low-income communities miss the vital early intervention window.
-                By leveraging Gemini’s multimodal AI, we wanted to put a clinically-grounded speech coach in the pocket of every parent—ensuring that while a child waits for a specialist, they aren't waiting to improve.
-              </p>
-              <p className="text-sm text-slate-400">
-                This project taught me that the most important part of building software for finance (or any field) is deeply understanding the problem you want to solve, and making sure your code and product decisions are always in service of that.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section
-          id="projects"
-          aria-label="Projects"
-          className="mb-14 space-y-6"
-        >
-          <SectionHeading
-            eyebrow="Projects"
-            title="Selected work across finance and software"
-          />
-          <div className="flex flex-wrap gap-2">
-            {filters.map((f) => (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setFilter(f)}
-                className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition ${
-                  filter === f
-                    ? 'border-sky-500 bg-sky-500/10 text-sky-300'
-                    : 'border-slate-700 bg-slate-900/70 text-slate-300 hover:border-slate-500'
-                }`}
-              >
+ 
+        <Divider />
+ 
+        {/* ── PROJECTS ── */}
+        <section id="projects" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <SecLabel n="03" title="Projects" />
+ 
+          <div style={{ display: 'flex', gap: 6, marginTop: 28, marginBottom: 28 }}>
+            {filters.map(f => (
+              <button key={f} onClick={() => setFilter(f)} className="filter-pill" style={{
+                fontSize: 12, fontWeight: 600, padding: '6px 16px', borderRadius: 100,
+                border: filter === f ? '1.5px solid var(--indigo)' : '1px solid var(--line)',
+                background: filter === f ? 'var(--indigo)' : 'var(--white)',
+                color: filter === f ? '#fff' : 'var(--t2)',
+                boxShadow: filter === f ? '0 2px 8px rgba(79,70,229,0.25)' : 'var(--shadow)',
+                transition: 'all .15s',
+              }}>
                 {f}
               </button>
             ))}
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {visibleProjects.map((project) => (
-              <article
-                key={project.title}
-                className="flex flex-col justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950/80 p-5"
-              >
-                <div>
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <h3 className="text-sm font-semibold text-slate-100">
-                      {project.title}
-                    </h3>
-                    <span className="rounded-full border border-slate-700 bg-slate-900/70 px-2 py-0.5 text-[0.65rem] font-medium text-slate-300">
-                      {project.tag}
-                    </span>
+ 
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            {visibleProjects.map(p => (
+              <article key={p.title} className="proj-card" style={{
+                background: 'var(--white)', borderRadius: 14, overflow: 'hidden',
+                boxShadow: 'var(--shadow)', display: 'flex', flexDirection: 'column',
+              }}>
+                {/* Color bar on top */}
+                <div style={{ height: 4, background: p.tag === 'Finance' ? 'linear-gradient(90deg, var(--indigo), #818CF8)' : 'linear-gradient(90deg, var(--teal), #2DD4BF)' }} />
+                <div style={{ padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', flex: 1, gap: 14 }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                      <span style={{
+                        fontSize: 10, fontWeight: 600, fontFamily: 'var(--mono)', letterSpacing: '0.12em', textTransform: 'uppercase',
+                        color: p.tag === 'Finance' ? 'var(--indigo)' : 'var(--teal)',
+                        background: p.tag === 'Finance' ? 'var(--indigo-l)' : 'var(--teal-l)',
+                        padding: '2px 8px', borderRadius: 100,
+                      }}>{p.tag}</span>
+                      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)' }}>{p.year}</span>
+                    </div>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--t1)', marginBottom: 8 }}>{p.title}</h3>
+                    <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--t2)' }}>{p.description}</p>
                   </div>
-                  <p className="text-sm text-slate-300">
-                    {project.description}
-                  </p>
-                </div>
-                {'github' in project && project.github ? (
-                  <a
-                    href={project.github}
-                    className="mt-1 text-xs font-medium text-sky-400 hover:text-sky-300"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View on GitHub →
-                  </a>
-                ) : null}
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {project.tech.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full bg-slate-900/70 px-2 py-0.5 text-[0.7rem] text-slate-300"
-                    >
-                      {t}
-                    </span>
-                  ))}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                      {p.tech.map(t => (
+                        <span key={t} style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t2)', background: 'var(--bg)', border: '1px solid var(--line)', padding: '2px 8px', borderRadius: 4 }}>{t}</span>
+                      ))}
+                    </div>
+                    {p.github && (
+                      <a href={p.github} target="_blank" rel="noreferrer"
+                        style={{ fontSize: 12, fontWeight: 600, color: 'var(--indigo)', flexShrink: 0, marginLeft: 12 }}
+                        onMouseEnter={e => (e.currentTarget.style.opacity = '.65')}
+                        onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
+                        View →
+                      </a>
+                    )}
+                  </div>
                 </div>
               </article>
             ))}
           </div>
         </section>
-
-        <section id="resume" aria-label="Resume hub" className="mb-20 space-y-8">
-          <SectionHeading eyebrow="Resumes" title="Dual-Track Professional Profiles" />
-          <div className="grid gap-6 md:grid-cols-2">
-            <a
-              href="/Poneesh_Resume_Finance.pdf"
-              download="Poneesh_Resume_Finance.pdf"
-              className="group relative flex flex-col justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/80 p-8 transition-all hover:border-emerald-400/50 hover:bg-emerald-400/[0.02] overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <svg className="h-20 w-20 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-              </div>
-              <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">Finance & Investments</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Quantitative Analyst Focus</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">Tailored for investments, asset management, and hedge funds. Emphasizes portfolio theory, risk modeling, and financial data engineering.</p>
-              </div>
-              <p className="text-xs font-bold text-emerald-400 flex items-center gap-2">
-                Download PDF <span className="group-hover:translate-y-1 transition-transform">↓</span>
-              </p>
-            </a>
-
-            <a
-              href="/Poneesh_Resume_Tech.pdf"
-              download="Poneesh_Resume_Tech.pdf"
-              className="group relative flex flex-col justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/80 p-8 transition-all hover:border-sky-400/50 hover:bg-sky-400/[0.02] overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <svg className="h-20 w-20 text-sky-400" fill="currentColor" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-              </div>
-              <div>
-                <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Software Engineering</p>
-                <h3 className="mb-3 text-lg font-bold text-white">Full-Stack & Systems Focus</h3>
-                <p className="text-sm text-slate-400 leading-relaxed">Tailored for Big Tech and Quant teams. Emphasizes python, Typescript, Serverless architecture, and reliable systems.</p>
-              </div>
-              <p className="text-xs font-bold text-sky-400 flex items-center gap-2">
-                Download PDF <span className="group-hover:translate-y-1 transition-transform">↓</span>
-              </p>
-            </a>
+ 
+        <Divider />
+ 
+        {/* ── RESUMES ── */}
+        <section id="resumes" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <SecLabel n="04" title="Resumes" />
+          <div style={{ marginTop: 36, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            {[
+              { track: 'Finance & Quant', title: 'Quantitative Analyst', desc: 'Tailored for HFT, asset management, and fintech. Emphasises portfolio theory, risk modelling, and financial data engineering.', href: '/Poneesh_Resume_Finance.pdf', color: 'var(--indigo)', bg: 'var(--indigo-l)', grad: 'linear-gradient(135deg, var(--indigo), #818CF8)' },
+              { track: 'Software Engineering', title: 'Full-Stack & Systems', desc: 'Tailored for Big Tech and engineering teams. Emphasises TypeScript, React, serverless architecture, and reliable systems.', href: '/Poneesh_Resume_Tech.pdf', color: 'var(--teal)', bg: 'var(--teal-l)', grad: 'linear-gradient(135deg, var(--teal), #2DD4BF)' },
+            ].map(r => (
+              <a key={r.track} href={r.href} download className="res-card"
+                style={{ display: 'flex', flexDirection: 'column', gap: 0, borderRadius: 14, overflow: 'hidden', background: 'var(--white)', boxShadow: 'var(--shadow)', border: '1px solid var(--line)' }}>
+                <div style={{ height: 5, background: r.grad }} />
+                <div style={{ padding: '24px 24px 20px', display: 'flex', flexDirection: 'column', gap: 16, flex: 1 }}>
+                  <div>
+                    <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: r.color, letterSpacing: '0.16em', textTransform: 'uppercase', display: 'block', marginBottom: 8, fontWeight: 500 }}>{r.track}</span>
+                    <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--t1)', marginBottom: 10, letterSpacing: '-0.02em' }}>{r.title}</h3>
+                    <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--t2)' }}>{r.desc}</p>
+                  </div>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: r.bg, color: r.color, fontSize: 12, fontWeight: 600, padding: '7px 14px', borderRadius: 8, alignSelf: 'flex-start', marginTop: 'auto' }}>
+                    Download PDF ↓
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         </section>
-
-        <section
-          id="contact"
-          aria-label="Contact"
-          className="mb-4 space-y-4"
-        >
-          <SectionHeading eyebrow="Contact" title="Let’s talk about your team" />
-          <p className="max-w-xl text-sm text-slate-300">
-            Whether you&apos;re building trading tools, research platforms, or
-            internal analytics dashboards, I&apos;m excited to contribute as a
-            Waterloo co-op student who cares about both the math and the
-            engineering.
+ 
+        <Divider />
+ 
+        {/* ── CONTACT ── */}
+        <section id="contact" style={{ paddingTop: 72, paddingBottom: 72 }}>
+          <SecLabel n="05" title="Contact" />
+          <p style={{ marginTop: 16, marginBottom: 32, fontSize: 15, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 460 }}>
+            Building trading tools, research platforms, or internal analytics? I'm actively looking for co-op opportunities across both finance and engineering.
           </p>
-          <div className="flex flex-wrap gap-3 text-sm">
-            <ContactLink
-              label="LinkedIn"
-              href="https://www.linkedin.com/in/poneeshkumar"
-              hint="Best place for a quick intro"
-            />
-            <ContactLink
-              label="GitHub"
-              href="https://github.com/PoneeshKumar"
-              hint="Code, projects, and experiments"
-            />
-            <ContactLink
-              label="Email"
-              href="mailto:poneesh.kumar@uwaterloo.ca"
-              hint="For detailed conversations or resumes"
-            />
+          <div style={{ display: 'flex', gap: 12 }}>
+            {[
+              { label: 'LinkedIn', href: 'https://www.linkedin.com/in/poneeshkumar', hint: 'Best for intros', color: 'var(--indigo)' },
+              { label: 'GitHub',   href: 'https://github.com/PoneeshKumar',          hint: 'Code & projects',  color: 'var(--indigo)' },
+              { label: 'Email',    href: 'mailto:poneesh.kumar@uwaterloo.ca',         hint: 'poneesh.kumar@uwaterloo.ca', color: 'var(--indigo)' },
+            ].map(l => (
+              <a key={l.label} href={l.href} className="contact-a"
+                style={{ display: 'flex', flexDirection: 'column', gap: 3, padding: '14px 18px', background: 'var(--white)', border: '1.5px solid var(--line)', borderRadius: 10, boxShadow: 'var(--shadow)', transition: 'border-color .15s, box-shadow .15s' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t1)' }}>{l.label}</span>
+                <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t2)' }}>{l.hint}</span>
+              </a>
+            ))}
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-slate-800/60 bg-slate-950/90">
-        <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-4 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Where code meets capital.</p>
-          <p className="text-[0.7rem]">
-            Built with React, TypeScript, Tailwind, and a scrolling ticker that
-            actually feels at home in finance.
-          </p>
+ 
+      {/* ── FOOTER ── */}
+      <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--white)', padding: '20px 28px' }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 12, color: 'var(--t3)' }}>© {new Date().getFullYear()} Poneesh Kumar</span>
+          <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)' }}>React · TypeScript · Tailwind</span>
         </div>
       </footer>
-    </div>
+    </>
   )
 }
-
-function TickerChip({
-  item,
-  liveQuotes,
-}: {
-  item: TickerItem
-  liveQuotes: LiveQuoteMap
-}) {
-  const live = item.symbol in liveQuotes ? liveQuotes[item.symbol] : undefined
+ 
+// ── Sub-components ────────────────────────────────────────────────────────────
+ 
+function TickerChip({ item, liveQuotes }: { item: TickerItem; liveQuotes: LiveQuoteMap }) {
+  const live = liveQuotes[item.symbol]
   const value = live?.value ?? item.value
   const delta = live?.delta ?? item.delta
-  const direction = live?.direction ?? item.direction
-
-  const color =
-    direction === 'up'
-      ? 'text-emerald-300'
-      : direction === 'down'
-        ? 'text-rose-300'
-        : 'text-slate-300'
-
+  const dir = live?.direction ?? item.direction
+  const dc = dir === 'up' ? 'var(--up)' : dir === 'down' ? 'var(--dn)' : 'var(--t2)'
+  const dbg = dir === 'up' ? 'var(--up-bg)' : dir === 'down' ? 'var(--dn-bg)' : 'transparent'
   return (
-    <div className="flex items-center gap-2 rounded-full border border-slate-800/80 bg-slate-950/80 px-3 py-1.5 shadow-[0_8px_30px_rgba(15,23,42,0.85)]">
-      <span
-        className={`h-1.5 w-1.5 rounded-full ${
-          item.category === 'market' ? 'bg-emerald-400' : 'bg-sky-400'
-        }`}
-      />
-      <span className="text-[0.7rem] font-medium uppercase tracking-[0.16em] text-slate-400">
-        {item.label}
-      </span>
-      <span className="text-[0.7rem] text-slate-300">{item.symbol}</span>
-      <span className="text-[0.7rem] text-slate-100">{value}</span>
-      <span className={`text-[0.7rem] font-medium ${color}`}>
-        {delta}
-      </span>
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '0 18px', borderRight: '1px solid var(--line)', height: '100%' }}>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, fontWeight: 500, color: item.category === 'market' ? 'var(--t1)' : 'var(--t2)', letterSpacing: '0.04em' }}>{item.label}</span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--t1)', fontWeight: 500 }}>{value}</span>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: dc, background: dbg, padding: '1px 5px', borderRadius: 3, fontWeight: 500 }}>{delta}</span>
     </div>
   )
 }
-
-function SectionHeading({
-  eyebrow,
-  title,
-}: {
-  eyebrow: string
-  title: string
-}) {
+ 
+function Divider() {
+  return <div style={{ height: 1, background: 'var(--line)' }} />
+}
+ 
+function SecLabel({ n, title }: { n: string; title: string }) {
   return (
-    <div>
-      <p className="mb-1 text-xs font-medium uppercase tracking-[0.25em] text-slate-400">
-        {eyebrow}
-      </p>
-      <h2 className="text-sm font-semibold text-slate-100 sm:text-base">
-        {title}
-      </h2>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <span style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--t3)', letterSpacing: '0.08em', flexShrink: 0 }}>{n}</span>
+      <h2 style={{ fontFamily: 'var(--sans)', fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', fontWeight: 800, color: 'var(--t1)', letterSpacing: '-0.03em', lineHeight: 1 }}>{title}</h2>
     </div>
   )
 }
-
-function Pill({ label }: { label: string }) {
+ 
+function ColLabel({ text, color }: { text: string; color: string }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-xs text-slate-200">
-      {label}
-    </span>
+    <p style={{ fontFamily: 'var(--mono)', fontSize: 9, color, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 24, fontWeight: 500 }}>{text}</p>
   )
 }
-
-function TerminalRow({ label, value }: { label: string; value: string }) {
+ 
+function RoleBlock({ title, org, period, bullets, accentColor }: { title: string; org: string; period: string; bullets: string[]; accentColor: string }) {
   return (
-    <div className="flex gap-2">
-      <span className="w-24 shrink-0 text-slate-500">{label}</span>
-      <span className="text-slate-100">{value}</span>
+    <div style={{ paddingLeft: 12, borderLeft: `2px solid ${accentColor}33` }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', marginBottom: 1 }}>{title}</p>
+          <p style={{ fontSize: 12, color: accentColor, fontWeight: 500 }}>{org}</p>
+        </div>
+        <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--t3)', whiteSpace: 'nowrap', paddingTop: 2 }}>{period}</span>
+      </div>
+      <ul style={{ marginTop: 8, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
+        {bullets.map(b => (
+          <li key={b} style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--t2)', lineHeight: 1.6 }}>
+            <span style={{ color: accentColor, flexShrink: 0, marginTop: 2, fontSize: 8 }}>▸</span>
+            <span>{b}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
-
-function ContactLink({
-  label,
-  href,
-  hint,
-}: {
-  label: string
-  href: string
-  hint: string
-}) {
-  return (
-    <a
-      href={href}
-      className="group inline-flex flex-col rounded-xl border border-slate-800/80 bg-slate-950/80 px-3 py-2 text-left text-xs text-slate-200 transition hover:border-sky-500/80 hover:bg-slate-950"
-    >
-      <span className="font-medium">{label}</span>
-      <span className="text-[0.7rem] text-slate-400 group-hover:text-slate-300">
-        {hint}
-      </span>
-    </a>
-  )
-}
-
-export default App
