@@ -78,7 +78,7 @@ const financeRoles = [
   {
     title: 'Bookkeeper', org: 'KumaraShivShakti Inc', period: 'Sep 2024 – Feb 2026',
     bullets: [
-      'Maintained financial records for a $7M+ real-estate portfolio, improving accuracy by 30%.',
+      'Maintained and validated financial records for a $7M+ real-estate portfolio, improving accuracy by 30%.',
       'Prepared automated financial reports and tracking spreadsheets to support budgeting.',
       'Monitored expenses, cash flow, and balances for tax preparation.'
     ]
@@ -240,19 +240,19 @@ export default function App() {
   const wrap: React.CSSProperties = { maxWidth: 1000, margin: '0 auto', padding: '0 28px' }
 
   return (
-   <>
+    <>
       <style>{CSS}</style>
       <AnimatePresence>
         {showSplash && (
           <motion.div
             key="splash"
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.5 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.6 }}
             style={{
               position: 'fixed',
               inset: 0,
-              zIndex: 100,
-              background: '#054d21', // Pitch Green
+              zIndex: 1000,
+              background: '#054d21', // Stadium Green
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -260,88 +260,105 @@ export default function App() {
               overflow: 'hidden'
             }}
           >
-            {/* Stadium Floodlight Impact Flash */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.4, 0] }}
-              transition={{ duration: 0.4, delay: 0.8 }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'white',
-                zIndex: 101,
-                pointerEvents: 'none'
-              }}
-            />
+            {/* STADIUM BACKGROUND LIGHTS */}
+            <div style={{ position: 'absolute', top: '10%', width: '100%', display: 'flex', justifyContent: 'space-around', opacity: 0.3 }}>
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} style={{ width: '100px', height: '100px', background: 'white', filter: 'blur(80px)', borderRadius: '50%' }} />
+              ))}
+            </div>
 
-            <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '300px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              
+              {/* THE BATSMAN SILHOUETTE */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                style={{ position: 'absolute', fontSize: '120px', zIndex: 1001, filter: 'brightness(0) invert(1)' }}
+              >
+                🏏
+              </motion.div>
+
               {/* THE HIT FOR 6 ANIMATION */}
               <motion.div
-                initial={{ x: -150, y: 150, scale: 0.4, opacity: 1 }}
+                initial={{ x: -200, y: -100, scale: 0.2, opacity: 0 }}
                 animate={{ 
-                  // 1. Approaches the "bat" 
-                  // 2. Impact at center (0,0)
-                  // 3. Accelerates into the camera (scaling massive)
-                  x: [-150, 0, 0],
-                  y: [150, 0, -300],
-                  scale: [0.4, 1, 60],
+                  // 1. Bowler releases (Approaches Batsman)
+                  // 2. THE HIT (Instant change in direction)
+                  // 3. OUT OF THE STADIUM (Into Camera)
+                  x: [-200, 0, 0],
+                  y: [-100, 0, -400],
+                  scale: [0.2, 0.8, 80],
                   opacity: [1, 1]
                 }}
                 transition={{ 
-                  duration: 2.0, 
-                  times: [0, 0.4, 1], 
+                  duration: 2.5, 
+                  times: [0, 0.4, 0.45, 1], 
                   ease: "easeIn" 
                 }}
                 onAnimationComplete={() => setShowSplash(false)}
                 style={{
-                  width: 70,
-                  height: 70,
+                  width: 50,
+                  height: 50,
                   background: 'radial-gradient(circle at 30% 30%, #d41111, #800000)',
                   borderRadius: '50%',
-                  boxShadow: '0 0 50px rgba(0,0,0,0.5)',
-                  border: '2.5px dashed rgba(255,255,255,0.3)', // Ball Seam
-                  zIndex: 102
+                  boxShadow: '0 0 30px rgba(0,0,0,0.5)',
+                  border: '2px dashed rgba(255,255,255,0.4)',
+                  zIndex: 1002
                 }}
               />
-              
-              {/* Score Indicator */}
+
+              {/* CAMERA SHAKE & FLASH ON IMPACT */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.6, 0], scale: [1, 1.2, 1] }}
+                transition={{ delay: 1, duration: 0.3 }}
+                style={{ position: 'absolute', inset: -100, background: 'white', zIndex: 1003, pointerEvents: 'none', filter: 'blur(40px)' }}
+              />
+
+              {/* GOLDEN SCORE OVERLAY */}
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: [1], scale: [0.5, 1.8, 2.5] }}
-                transition={{ delay: 0.8, duration: 1.0 }}
+                animate={{ opacity: [1], scale: [0.5, 2, 3] }}
+                transition={{ delay: 1.1, duration: 0.8 }}
                 style={{
                   position: 'absolute',
-                  color: '#FFD700', // Gold
-                  fontSize: '140px',
+                  color: '#FFD700',
+                  fontSize: '100px',
                   fontWeight: 900,
-                  zIndex: 103,
-                  textShadow: '0 0 30px rgba(0,0,0,0.6)',
-                  fontFamily: 'var(--sans)'
+                  zIndex: 1004,
+                  fontFamily: 'var(--sans)',
+                  textShadow: '0 0 40px rgba(255,215,0,0.5)'
                 }}
               >
                 6!
               </motion.div>
             </div>
-            <motion.h1 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              transition={{ delay: 0.6 }} 
-              style={{ color: '#fff', fontSize: '3rem', marginTop: 40, textAlign: 'center' }}
+
+            {/* IDENTITY LABELS */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.5 }}
+              style={{ position: 'absolute', bottom: '10%', textAlign: 'center', color: 'white', zIndex: 1005 }}
             >
-              Poneesh · पुनीश · ਪੁਨੀਸ਼
-            </motion.h1>
+              <h1 style={{ fontSize: '2.8rem', fontWeight: 800, marginBottom: '8px', letterSpacing: '-0.02em' }}>
+                Poneesh · पुनीश · ਪੁਨੀਸ਼
+              </h1>
+              <p style={{ opacity: 0.7, letterSpacing: '6px', fontSize: '10px', fontFamily: 'var(--mono)' }}>
+                WHERE CAPITAL POWERS CODE
+              </p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* --- MAIN PORTFOLIO CONTENT --- */}
+      <div style={{ visibility: showSplash ? 'hidden' : 'visible' }}>
       {!showSplash && (
         <motion.div 
           initial={{ opacity: 0 }} 
           animate={{ opacity: 1 }} 
           transition={{ duration: 0.5 }}
         >
-          {/* ── HEADER ── */}
           <header style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(248,249,250,0.92)', backdropFilter: 'blur(16px)', borderBottom: '1px solid var(--line)' }}>
             <div style={{ ...wrap, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -362,7 +379,6 @@ export default function App() {
             </div>
           </header>
 
-          {/* ── TICKER ── */}
           <div style={{ background: 'var(--white)', borderBottom: '1px solid var(--line)', height: 38, display: 'flex', overflow: 'hidden', alignItems: 'center' }}>
             <div style={{ flexShrink: 0, height: '100%', display: 'flex', alignItems: 'center', gap: 6, padding: '0 16px', borderRight: '1px solid var(--line)', background: 'var(--indigo-l)' }}>
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', boxShadow: '0 0 0 2px rgba(99,102,241,0.25)', flexShrink: 0 }} />
@@ -379,8 +395,6 @@ export default function App() {
           </div>
 
           <main style={{ ...wrap, paddingTop: 0, paddingBottom: 120 }}>
-
-            {/* ── HERO ── */}
             <section aria-label="Hero" style={{ paddingTop: 88, paddingBottom: 80 }}>
               <div className="fu d1" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: 'var(--indigo-l)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 100, padding: '5px 12px', marginBottom: 28 }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--indigo)', flexShrink: 0 }} />
@@ -416,10 +430,8 @@ export default function App() {
 
             <Divider />
 
-            {/* ── EXPERIENCE ── */}
             <section id="experience" style={{ paddingTop: 72, paddingBottom: 72 }}>
               <SecLabel n="01" title="Professional Experience" />
-
               <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
                 <div>
                   <ColLabel text="Finance & Research" color="var(--indigo)" />
@@ -438,7 +450,6 @@ export default function App() {
 
             <Divider />
 
-            {/* ── VOLUNTEERING ── */}
             <section id="volunteering" style={{ paddingTop: 72, paddingBottom: 72 }}>
               <SecLabel n="02" title="Volunteering" />
               <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
@@ -450,10 +461,8 @@ export default function App() {
 
             <Divider />
 
-            {/* ── PROJECTS ── */}
             <section id="projects" style={{ paddingTop: 72, paddingBottom: 72 }}>
               <SecLabel n="03" title="Selected Projects" />
-
               <div style={{ display: 'flex', gap: 6, marginTop: 28, marginBottom: 28 }}>
                 {filters.map(f => (
                   <button key={f} onClick={() => setFilter(f)} className="filter-pill" style={{
@@ -511,7 +520,6 @@ export default function App() {
 
             <Divider />
 
-            {/* ── RESUMES ── */}
             <section id="resumes" style={{ paddingTop: 72, paddingBottom: 72 }}>
               <SecLabel n="04" title="Resumes" />
               <div style={{ marginTop: 36, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -539,7 +547,6 @@ export default function App() {
 
             <Divider />
 
-            {/* ── CONTACT ── */}
             <section id="contact" style={{ paddingTop: 72, paddingBottom: 72 }}>
               <SecLabel n="05" title="Get in Touch" />
               <p style={{ marginTop: 16, marginBottom: 32, fontSize: 15, lineHeight: 1.75, color: 'var(--t2)', maxWidth: 460 }}>
@@ -561,7 +568,6 @@ export default function App() {
             </section>
           </main>
 
-          {/* ── FOOTER ── */}
           <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--white)', padding: '20px 28px' }}>
             <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 12, color: 'var(--t3)' }}>© {new Date().getFullYear()} Poneesh Kumar</span>
@@ -570,6 +576,7 @@ export default function App() {
           </footer>
         </motion.div>
       )}
+      </div>
     </>
   )
 }
@@ -609,7 +616,7 @@ function ColLabel({ text, color }: { text: string; color: string }) {
   )
 }
 
-function RoleBlock({ title, org, period, bullets, accentColor }: { title: string; org: string; period: string; bullets: string[]; accentColor: string }) {
+function RoleBlock({ title, org, period, bullets, accentColor }: { title: string; org: string; period?: string; bullets: string[]; accentColor: string }) {
   return (
     <div style={{ paddingLeft: 12, borderLeft: `2px solid ${accentColor}33` }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
@@ -617,7 +624,7 @@ function RoleBlock({ title, org, period, bullets, accentColor }: { title: string
           <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)', marginBottom: 1 }}>{title}</p>
           <p style={{ fontSize: 12, color: accentColor, fontWeight: 500 }}>{org}</p>
         </div>
-        <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--t3)', whiteSpace: 'nowrap', paddingTop: 2 }}>{period}</span>
+        {period && <span style={{ fontFamily: 'var(--mono)', fontSize: 9, color: 'var(--t3)', whiteSpace: 'nowrap', paddingTop: 2 }}>{period}</span>}
       </div>
       <ul style={{ marginTop: 8, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
         {bullets.map(b => (
