@@ -1,0 +1,249 @@
+<h2>How should sections connect?</h2>
+<p class="subtitle">The hero says "full screen, no scroll needed" — but Work, Experience, About need navigation. Pick the model that feels right.</p>
+
+<style>
+.nav-demo {
+  display: flex;
+  flex-direction: column;
+  background: #0a0a0a;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: sans-serif;
+  height: 180px;
+  position: relative;
+}
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 44px;
+  border-bottom: 1px solid #1e1e1e;
+  background: #0a0a0a;
+  flex-shrink: 0;
+}
+.nav-logo { color: #e8c547; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; }
+.nav-links { display: flex; gap: 20px; }
+.nav-link { color: #666; font-size: 10px; letter-spacing: 0.08em; }
+.nav-link.active { color: #f0f0f0; }
+.section-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 20px 28px;
+  gap: 20px;
+}
+.hero-text { flex: 1; }
+.hero-name { color: #f0f0f0; font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+.hero-sub { color: #666; font-size: 10px; margin-bottom: 12px; }
+.hero-btns { display: flex; gap: 8px; }
+.hero-btn {
+  border: 1px solid #f0f0f0; color: #f0f0f0; background: none;
+  padding: 5px 12px; font-size: 9px; border-radius: 4px; letter-spacing: 0.08em;
+}
+.hero-btn.gold { border-color: #e8c547; color: #e8c547; }
+.hero-canvas {
+  width: 120px; height: 100px; border-radius: 6px;
+  border: 1px solid #1e1e1e; display: flex; align-items: center; justify-content: center;
+  color: #333; font-size: 9px;
+}
+.section-indicator {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 5px;
+}
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #333; }
+.dot.active { background: #e8c547; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 16px 24px;
+  flex: 1;
+}
+.proj-card {
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  padding: 10px 12px;
+  background: #111;
+}
+.proj-title { color: #f0f0f0; font-size: 9px; font-weight: 700; margin-bottom: 3px; }
+.proj-sub { color: #444; font-size: 8px; }
+.proj-top-border { height: 2px; background: #e8c547; border-radius: 1px; margin-bottom: 8px; opacity: 0; }
+.proj-card:hover .proj-top-border { opacity: 1; }
+
+.scroll-arrows {
+  position: absolute; top: 50%; right: 12px; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.arrow { color: #333; font-size: 10px; }
+
+.sidebar {
+  width: 160px; background: #0d0d0d; border-right: 1px solid #1e1e1e;
+  display: flex; flex-direction: column; padding: 16px 12px; gap: 8px; flex-shrink: 0;
+}
+.sidebar-item { color: #444; font-size: 9px; padding: 5px 8px; border-radius: 4px; }
+.sidebar-item.active { color: #f0f0f0; background: #161616; }
+.sidebar-dot { display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: #e8c547; margin-right: 6px; }
+.main-area { flex: 1; padding: 16px; overflow: hidden; }
+
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #1e1e1e;
+  padding: 0 20px;
+  flex-shrink: 0;
+  background: #0a0a0a;
+  height: 36px;
+  align-items: flex-end;
+}
+.tab {
+  color: #444; font-size: 9px; padding: 8px 14px;
+  border-bottom: 2px solid transparent; letter-spacing: 0.06em;
+  cursor: pointer;
+}
+.tab.active { color: #f0f0f0; border-bottom-color: #e8c547; }
+</style>
+
+<div class="cards">
+
+  <!-- Option A: Fixed top nav, swap sections (no scroll) -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="nav-demo">
+        <div class="nav-bar">
+          <span class="nav-logo">PK</span>
+          <div class="nav-links">
+            <span class="nav-link active">Work</span>
+            <span class="nav-link">Experience</span>
+            <span class="nav-link">Awards</span>
+            <span class="nav-link">About</span>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="hero-text">
+            <div class="hero-name">Poneesh Kumar</div>
+            <div class="hero-sub">Computing & Financial Management · UWaterloo</div>
+            <div class="hero-btns">
+              <div class="hero-btn">View Work →</div>
+              <div class="hero-btn">Download Resume</div>
+            </div>
+          </div>
+          <div class="hero-canvas">[ 3D shape ]</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Top nav, section swap</h3>
+      <p>Clicking nav links swaps the visible section with a fade + Y shift animation. Full-screen each time. No scrolling. Like the current site but much cleaner.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Vertical scroll with snap -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="nav-demo">
+        <div class="nav-bar">
+          <span class="nav-logo">PK</span>
+          <div class="nav-links">
+            <span class="nav-link active">Work</span>
+            <span class="nav-link">Experience</span>
+            <span class="nav-link">Awards</span>
+            <span class="nav-link">About</span>
+          </div>
+        </div>
+        <div class="section-content">
+          <div class="hero-text">
+            <div class="hero-name">Poneesh Kumar</div>
+            <div class="hero-sub">Computing & Financial Management · UWaterloo</div>
+            <div class="hero-btns">
+              <div class="hero-btn">View Work →</div>
+              <div class="hero-btn">Download Resume</div>
+            </div>
+          </div>
+          <div class="hero-canvas">[ 3D shape ]</div>
+        </div>
+        <div class="scroll-arrows">
+          <div class="arrow">↑</div>
+          <div class="arrow" style="color:#e8c547">↓</div>
+        </div>
+        <div class="section-indicator">
+          <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Scroll-snap sections</h3>
+      <p>Each section is full-viewport height. Scrolling snaps to each section. Nav links jump to the right section. Natural, familiar scrolling feel.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Sidebar nav + scrollable content -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="nav-demo" style="flex-direction:column;">
+        <div class="nav-bar">
+          <span class="nav-logo">PK</span>
+        </div>
+        <div style="display:flex;flex:1;overflow:hidden;">
+          <div class="sidebar">
+            <div class="sidebar-item active"><span class="sidebar-dot"></span>Hero</div>
+            <div class="sidebar-item">Work</div>
+            <div class="sidebar-item">Experience</div>
+            <div class="sidebar-item">Awards</div>
+            <div class="sidebar-item">About</div>
+          </div>
+          <div class="main-area">
+            <div style="color:#f0f0f0;font-size:18px;font-weight:800;margin-bottom:4px;">Poneesh Kumar</div>
+            <div style="color:#666;font-size:9px;margin-bottom:8px;">Computing & Financial Management</div>
+            <div style="display:flex;gap:6px;">
+              <div class="hero-btn" style="border:1px solid #f0f0f0;color:#f0f0f0;background:none;padding:4px 10px;font-size:8px;border-radius:3px;">View Work →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Sidebar + free scroll</h3>
+      <p>Persistent left sidebar shows all sections. Main area scrolls freely. Good for content-heavy pages like Experience. More "app-like" but narrower content column.</p>
+    </div>
+  </div>
+
+  <!-- Option D: Top tabs + scrollable content area -->
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="nav-demo" style="flex-direction:column;">
+        <div class="nav-bar">
+          <span class="nav-logo">PK</span>
+          <div class="nav-links">
+            <span class="nav-link">GitHub</span>
+            <span class="nav-link">LinkedIn</span>
+          </div>
+        </div>
+        <div class="tab-bar">
+          <div class="tab active">Hero</div>
+          <div class="tab">Work</div>
+          <div class="tab">Experience</div>
+          <div class="tab">Awards</div>
+          <div class="tab">About</div>
+        </div>
+        <div class="section-content">
+          <div class="hero-text">
+            <div class="hero-name">Poneesh Kumar</div>
+            <div class="hero-sub">Computing & Financial Management · UWaterloo</div>
+            <div class="hero-btns">
+              <div class="hero-btn">View Work →</div>
+              <div class="hero-btn">Download Resume</div>
+            </div>
+          </div>
+          <div class="hero-canvas">[ 3D ]</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>D — Tab bar below nav</h3>
+      <p>Nav stays minimal (just logo + links). A tab bar lives below it for section switching. Clean separation. Tab underline in gold on active. Content area scrolls independently.</p>
+    </div>
+  </div>
+
+</div>
