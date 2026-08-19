@@ -2,7 +2,7 @@
 
 /* ─── RESET ──────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; }
+html, body { width: 100%; min-height: 100%; overflow-x: hidden; overflow-y: auto; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DESIGN LANGUAGE:
@@ -132,12 +132,13 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 /* ─── ROOT ──────────────────────────────────────────────────────────────── */
 #root {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   font-family: var(--font-body);
   color: var(--city-text);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   position: relative;
-  background: var(--city-bg-1);
+  background: transparent;
   transition: background 0.5s ease, color 0.5s ease;
 }
 
