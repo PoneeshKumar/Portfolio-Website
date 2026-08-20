@@ -12,6 +12,14 @@ const projects: Project[] = [
 ]
 
 const roles: Role[] = [
+    {
+    title: 'Quantitative Developer Intern',
+    company: 'RBC Global Asset Management',
+    location: 'Toronto, ON',
+    period: 'Sep 2026 - Dec 2026',
+    detail: 'Incoming quantitative developer working across research and engineering teams on production-grade financial systems, trading pipelines, and execution algorithms.',
+    bullets: [],
+  },
   {
     title: 'Software Engineering Intern',
     company: 'NetNow Financial',
@@ -36,14 +44,6 @@ const roles: Role[] = [
       'Engineered NumPy and Polars feature extraction and validation pipelines for rolling covariance, volatility, and volume indicators.',
       'Ensured high availability and data integrity for a $2M AUM portfolio with resilient workers and SendGrid morning reporting.',
     ],
-  },
-  {
-    title: 'Quantitative Developer Intern',
-    company: 'RBC Global Asset Management',
-    location: 'Toronto, ON',
-    period: 'Sep 2026 - Dec 2026',
-    detail: 'Incoming quantitative developer working across research and engineering teams on production-grade financial systems, trading pipelines, and execution algorithms.',
-    bullets: [],
   },
   {
     title: 'ML Engineer',
@@ -110,7 +110,6 @@ const certifications = [
   ['AWS Fundamentals of Machine Learning and AI', 'Amazon Web Services'],
   ['Quantitative Finance & Algorithmic Trading in Python', 'Professional Certification'],
   ['Microsoft Security Essentials', 'Microsoft'],
-  ['CFI Corporate Finance Foundations', 'Corporate Finance Institute'],
   ['SQL for Finance Professionals', 'Corporate Finance Institute'],
 ]
 
@@ -122,7 +121,7 @@ export default function App() {
   const [active, setActive] = useState('home')
 
   useEffect(() => {
-    const sections = ['home', 'work', 'edge', 'recognition', 'notes', 'contact'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    const sections = ['home', 'work', 'skills', 'recognition', 'blogs', 'projects'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.find((entry) => entry.isIntersecting)
       if (visible?.target.id) setActive(visible.target.id)
@@ -136,13 +135,13 @@ export default function App() {
       <header className="site-header">
         <a className="wordmark" href="#home" aria-label="Poneesh Kumar home">PK<span>.</span></a>
         <nav className="site-nav" aria-label="Main navigation">
-          {['home', 'work', 'edge', 'recognition', 'notes', 'contact'].map((id) => <a key={id} className={active === id ? 'is-active' : ''} href={`#${id}`}>{id}</a>)}
+            {['home', 'work', 'skills', 'recognition', 'blogs', 'projects'].map((id) => <a key={id} className={active === id ? 'is-active' : ''} href={`#${id}`}>{id}</a>)}
         </nav>
       </header>
 
       <main>
         <section id="home" className="hero section-rule">
-          <div className="hero-index">01 / 05</div>
+          <div className="hero-index">01</div>
           <div className="hero-copy">
             <Reveal>
               <p className="kicker">Computing & Financial Management / University of Waterloo</p>
@@ -151,44 +150,17 @@ export default function App() {
               <div className="plain-links" aria-label="External links">
                 <a href="https://github.com/PoneeshKumar" target="_blank" rel="noreferrer">GitHub <span>↗</span></a>
                 <a href="https://www.linkedin.com/in/poneeshkumar" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a>
-                <a href="mailto:poneeshkumar@example.com">Email <span>↗</span></a>
+                <a href="mailto:poneesh.kumar@uwaterloo.ca">Email <span>↗</span></a>
               </div>
             </Reveal>
           </div>
           <aside className="hero-aside" aria-label="Current focus">
             <p className="mono-label">CURRENT FOCUS</p>
-            <p>Market data infrastructure<br />Quantitative research<br />Applied machine learning</p>
-            <p className="availability"><i /> Open to Summer 2027 internships</p>
+            <p>Market data infrastructure<br />Quantitative finance<br />Applied machine learning</p>
           </aside>
         </section>
-
-        <section id="work" className="section-rule">
-          <div className="section-intro"><p className="kicker">02 / Selected work</p><h2>Projects with measurable edges.</h2><p>Dense, technical, and built to answer a specific operational question.</p></div>
-          <div className="project-list">
-            {projects.map((project, index) => <Reveal key={project.title} delay={index * 0.025}><article className="project-row"><div className="project-number">0{index + 1}</div><div className="project-main"><div className="project-heading"><h3>{project.title}</h3><span>{project.kind}</span></div><p>{project.impact}</p><div className="tag-list">{project.technologies.map((technology) => <span key={technology}>{technology}</span>)}</div></div><div className="project-meta"><span>{project.year}</span><a href={project.href} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} source code`}>Code ↗</a></div></article></Reveal>)}
-          </div>
-        </section>
-
-        <section id="edge" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">03 / Fintech edge</p><h2>Where software meets the numbers.</h2><p>The technical habits I bring to data-heavy products and research workflows.</p></div>
-          <div className="competency-table" role="table" aria-label="Core competencies">{competencies.map(([name, detail]) => <div className="competency-row" role="row" key={name}><strong role="cell">{name}</strong><span role="cell">{detail}</span></div>)}</div>
-        </section>
-
-        <section id="recognition" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">04 / Recognition</p><h2>Proof of range.</h2><p>Awards and certifications spanning applied AI, quantitative finance, security, and data.</p></div>
-          <div className="recognition-columns">
-            <div className="recognition-list"><p className="mono-label">AWARDS</p>{recognition.map(([title, org, year]) => <div className="recognition-row" key={title}><strong>{title}</strong><span>{org}</span><time>{year}</time></div>)}</div>
-            <div className="recognition-list"><p className="mono-label">CERTIFICATIONS</p>{certifications.map(([title, org]) => <div className="recognition-row" key={title}><strong>{title}</strong><span>{org}</span></div>)}</div>
-          </div>
-        </section>
-
-        <section id="notes" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">05 / Musings</p><h2>Small notes from the build loop.</h2><p>Short technical writing, when the idea is clearer on paper.</p></div>
-          <div className="notes-list">{posts.map(([title, description], index) => <a href="#contact" className="note-row" key={title}><span>0{index + 1}</span><strong>{title}</strong><em>{description}</em><b>↗</b></a>)}</div>
-        </section>
-
-        <section id="contact" className="section-rule contact-section">
-          <div><p className="kicker">06 / Experience & contact</p><h2>Useful systems, carefully shipped.</h2></div>
+        <section id="work" className="section-rule contact-section">
+          <div className="section-intro"><p className="kicker">02 / Experience & contact</p><h2>Experience.</h2><p>Useful systems, carefully shipped.</p></div>
           <div className="experience-list">
             {roles.map((role) => (
               <article className={`experience-row${role.volunteer ? ' is-volunteer' : ''}`} key={`${role.title}-${role.company}`}>
@@ -198,11 +170,34 @@ export default function App() {
               </article>
             ))}
           </div>
-          <div className="contact-line"><p>Available for Summer 2027 software engineering and data internships.</p><a className="contact-link" href="mailto:poneeshkumar@example.com">Start a conversation ↗</a></div>
+        </section>
+        <section id="projects" className="section-rule">
+          <div className="section-intro"><p className="kicker">03 / Selected work</p><h2>Projects.</h2><p>Technical, and built to answer a specific question.</p></div>
+          <div className="project-list">
+            {projects.map((project, index) => <Reveal key={project.title} delay={index * 0.025}><article className="project-row"><div className="project-number">0{index + 1}</div><div className="project-main"><div className="project-heading"><h3>{project.title}</h3><span>{project.kind}</span></div><p>{project.impact}</p><div className="tag-list">{project.technologies.map((technology) => <span key={technology}>{technology}</span>)}</div></div><div className="project-meta"><span>{project.year}</span><a href={project.href} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} source code`}>Code ↗</a></div></article></Reveal>)}
+          </div>
+        </section>
+
+        <section id="skills" className="section-rule split-section">
+          <div className="section-intro"><p className="kicker">04 / Skills</p><h2>Tech Stack</h2><p>The technical habits I bring to data-heavy products and research workflows.</p></div>
+          <div className="competency-table" role="table" aria-label="Core competencies">{competencies.map(([name, detail]) => <div className="competency-row" role="row" key={name}><strong role="cell">{name}</strong><span role="cell">{detail}</span></div>)}</div>
+        </section>
+
+        <section id="recognition" className="section-rule split-section">
+          <div className="section-intro"><p className="kicker">05 / Recognition</p><h2>Awards & Certifications</h2><p>Awards and certifications spanning applied AI, quantitative finance, security, and data.</p></div>
+          <div className="recognition-columns">
+            <div className="recognition-list"><p className="mono-label">AWARDS</p>{recognition.map(([title, org, year]) => <div className="recognition-row" key={title}><strong>{title}</strong><span>{org}</span><time>{year}</time></div>)}</div>
+            <div className="recognition-list"><p className="mono-label">CERTIFICATIONS</p>{certifications.map(([title, org]) => <div className="recognition-row" key={title}><strong>{title}</strong><span>{org}</span></div>)}</div>
+          </div>
+        </section>
+
+        <section id="blogs" className="section-rule split-section">
+          <div className="section-intro"><p className="kicker">06 / Blogs</p><h2>Small yap sessions from the build loop.</h2><p>Short technical writing, when the idea is clearer on paper.</p></div>
+          <div className="notes-list">{posts.map(([title, description], index) => <a href="#contact" className="note-row" key={title}><span>0{index + 1}</span><strong>{title}</strong><em>{description}</em><b>↗</b></a>)}</div>
         </section>
       </main>
 
-      <footer className="site-footer"><span>© 2026 Poneesh Kumar</span><span><i /> Available for Summer 2027 internships</span><span>Built with React / TypeScript</span></footer>
+      <footer className="site-footer"><span>© 2026 Poneesh Kumar</span><span>Contact: poneesh.kumar@uwaterloo.ca</span><span>Built with React / TypeScript</span></footer>
     </div>
   )
 }
