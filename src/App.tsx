@@ -3,7 +3,33 @@ import { motion } from 'framer-motion'
 
 type Project = { title: string; kind: string; year: string; impact: string; technologies: string[]; href: string }
 type Role = { title: string; company: string; location?: string; period: string; detail: string; bullets: string[]; volunteer?: boolean }
+type TechItem = { name: string; icon: string }
 
+const techStack: TechItem[] = [
+  { name: 'Python', icon: 'python' },
+  { name: 'TypeScript', icon: 'typescript' },
+  { name: 'JavaScript', icon: 'javascript' },
+  { name: 'C++', icon: 'cplusplus' },
+  { name: 'SQL', icon: 'postgresql' },
+  { name: 'MATLAB', icon: 'mathworks' },
+  { name: 'React', icon: 'react' },
+  { name: 'FastAPI', icon: 'fastapi' },
+  { name: 'Django REST', icon: 'django' },
+  { name: 'Supabase', icon: 'supabase' },
+  { name: 'Firebase', icon: 'firebase' },
+  { name: 'Tailwind CSS', icon: 'tailwindcss' },
+  { name: 'Pandas', icon: 'pandas' },
+  { name: 'NumPy', icon: 'numpy' },
+  { name: 'Scikit-learn', icon: 'scikitlearn' },
+  { name: 'PyTorch', icon: 'pytorch' },
+  { name: 'Recharts', icon: 'd3dotjs' },
+  { name: 'Cypress', icon: 'cypress' },
+  { name: 'C', icon: 'c' },
+  { name: 'Vite', icon: 'vite' },
+  { name: 'Docker', icon: 'docker' },
+  { name: 'Git', icon: 'git' },
+  { name: 'Vercel', icon: 'vercel' },
+]
 const projects: Project[] = [
   { title: 'CreditLens', kind: 'Credit risk platform', year: '2026', impact: 'Scores financial-document deterioration across multiple fiscal years and flags high-risk issuers earlier.', technologies: ['Python', 'FastAPI', 'React', 'TypeScript'], href: 'https://github.com/PoneeshKumar/CreditRisk' },
   { title: 'Portfolio Advisor', kind: 'Systematic trading research', year: '2026', impact: 'Delivered a 25% annualized backtest across 70+ TSX and NYSE equities using momentum, RSI, and SMA signals.', technologies: ['Python', 'Pandas', 'SciPy', 'yFinance'], href: 'https://github.com/IanLeung12/CFM-Group-Project' },
@@ -132,6 +158,38 @@ export default function App() {
 
   return (
     <div className="site-shell">
+      <style>{`
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .tech-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+  }
+  .tech-item img {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    object-fit: contain;
+    display: block;
+  }
+  .tech-item span {
+    font-size: 0.78rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`}</style>
       <header className="site-header">
         <a className="wordmark" href="#home" aria-label="Poneesh Kumar home">PK<span>.</span></a>
         <nav className="site-nav" aria-label="Main navigation">
@@ -178,9 +236,29 @@ export default function App() {
           </div>
         </section>
 
-        <section id="skills" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">04 / Skills</p><h2>Tech Stack</h2><p>The technical habits I bring to data-heavy products and research workflows.</p></div>
-          <div className="competency-table" role="table" aria-label="Core competencies">{competencies.map(([name, detail]) => <div className="competency-row" role="row" key={name}><strong role="cell">{name}</strong><span role="cell">{detail}</span></div>)}</div>
+<section id="skills" className="section-rule split-section">
+          <div className="section-intro">
+            <p className="kicker">04 / Tech Stack</p>
+            <h2>Languages & Tools.</h2>
+            <p>Frameworks, quantitative libraries, databases, and testing tools I use across production and research.</p>
+          </div>
+          <Reveal>
+            <div className="tech-grid">
+              {techStack.map((tech) => (
+                <div className="tech-item" key={tech.name}>
+                  <img
+                    src={`https://cdn.simpleicons.org/${tech.icon}`}
+                    alt={`${tech.name} icon`}
+                    loading="lazy"
+                    onError={(e) => {
+                      ;(e.target as HTMLElement).style.display = 'none'
+                    }}
+                  />
+                  <span>{tech.name}</span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </section>
 
         <section id="recognition" className="section-rule split-section">
