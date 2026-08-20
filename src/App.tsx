@@ -112,13 +112,6 @@ const roles: Role[] = [
   },
 ]
 
-const competencies = [
-  ['Time-series data', 'Market data normalization, caching layers, and signal pipelines'],
-  ['Financial mathematics', 'Backtesting, momentum signals, DCF models, volatility, and drawdown'],
-  ['API design', 'Typed REST contracts, validation, observability, and production verification'],
-  ['Applied machine learning', 'Model evaluation, retrieval workflows, and simulation environments'],
-]
-
 const posts = [
   ['Designing a cache for market data', 'Notes on freshness, contention, and useful failure modes'],
   ['What makes a backtest believable?', 'A short checklist for avoiding accidental overfitting'],
