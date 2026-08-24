@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import marbleLogo from './assets/marble.jpeg'
 import netnowLogo from './assets/NetNow.avif'
-import rbcLogo from './assets/rbc.jpeg'
+import rbcLogo from './assets/RBC.jpeg'
 import uwfintechLogo from './assets/uwfintechclub_logo.jpeg'
 import uwmwmaLogo from './assets/uwwma.jpeg'
-import uwfaLogo from './assets/uwfa.jpeg'
+import uwfaLogo from './assets/UWFA.jpeg'
 import watstreetLogo from './assets/WatStreet.jpeg'
 
 type Project = { title: string; kind: string; year: string; impact: string; technologies: string[]; href: string }
