@@ -129,3 +129,132 @@ section:not(.hero) { padding: 112px 0; }
   .site-footer span { display: block; margin-top: 10px; }
   .recognition-columns { grid-template-columns: 1fr; gap: 36px; }
 }
+/* Hero Profile & Badges */
+.hero-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.avatar-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+.company-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+.company-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.64rem;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.02);
+}
+.badge-icon {
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+}
+
+/* Experience Toggle & Logos */
+.toggle-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+.toggle-container {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.02);
+}
+.toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 120ms ease;
+}
+.toggle-btn.is-active {
+  background: var(--accent);
+  color: #fff;
+}
+.experience-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.company-logo {
+  width: 64px;             /* increased from 32px */
+  height: 64px;            /* increased from 32px */
+  min-width: 64px;         /* ensures it doesn't shrink on mobile */
+  border-radius: 6px;      /* subtle corner radius */
+  object-fit: contain;     /* keeps the entire logo visible without distortion */
+  background: #ffffff;
+  border: 1px solid var(--line);
+  padding: 4px;            /* internal breathing room for the logo */
+}
+
+/* What I'm Up To Grid */
+.upto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.upto-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.media-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.media-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.4);
+}
+.media-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.media-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.media-subtitle {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.media-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 6px;
+  text-transform: uppercase;
+}

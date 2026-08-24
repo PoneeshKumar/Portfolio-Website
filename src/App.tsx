@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import marbleLogo from './assets/marble.jpeg'
+import netnowLogo from './assets/NetNow.avif'
+import rbcLogo from './assets/rbc.jpeg'
+import uwfintechLogo from './assets/uwfintechclub_logo.jpeg'
+import uwmwmaLogo from './assets/uwwma.jpeg'
+import uwfaLogo from './assets/uwfa.jpeg'
+import watstreetLogo from './assets/watstreet.jpeg'
 
 type Project = { title: string; kind: string; year: string; impact: string; technologies: string[]; href: string }
-type Role = { title: string; company: string; location?: string; period: string; detail: string; bullets: string[]; volunteer?: boolean }
+type Role = { title: string; company: string; location?: string; period: string; logo?: string; detail: string; bullets: string[]; volunteer?: boolean }
 type TechItem = { name: string; icon: string }
+type MediaItem = { title: string; subtitle: string; tag?: string }
+
+
 
 const techStack: TechItem[] = [
   { name: 'Python', icon: 'python' },
@@ -30,6 +40,7 @@ const techStack: TechItem[] = [
   { name: 'Git', icon: 'git' },
   { name: 'Vercel', icon: 'vercel' },
 ]
+
 const projects: Project[] = [
   { title: 'CreditLens', kind: 'Credit risk platform', year: '2026', impact: 'Scores financial-document deterioration across multiple fiscal years and flags high-risk issuers earlier.', technologies: ['Python', 'FastAPI', 'React', 'TypeScript'], href: 'https://github.com/PoneeshKumar/CreditRisk' },
   { title: 'Portfolio Advisor', kind: 'Systematic trading research', year: '2026', impact: 'Delivered a 25% annualized backtest across 70+ TSX and NYSE equities using momentum, RSI, and SMA signals.', technologies: ['Python', 'Pandas', 'SciPy', 'yFinance'], href: 'https://github.com/IanLeung12/CFM-Group-Project' },
@@ -43,6 +54,7 @@ const roles: Role[] = [
     company: 'RBC Global Asset Management',
     location: 'Toronto, ON',
     period: 'Sep 2026 - Dec 2026',
+    logo: rbcLogo,
     detail: 'Incoming quantitative developer working across research and engineering teams on production-grade financial systems, trading pipelines, and execution algorithms.',
     bullets: [],
   },
@@ -51,6 +63,7 @@ const roles: Role[] = [
     company: 'NetNow Financial',
     location: 'Toronto, ON',
     period: 'May 2026 - Aug 2026',
+    logo: netnowLogo,
     detail: 'Agentic AI, full-stack product engineering, and automated credit workflows.',
     bullets: [
       'Increased operational efficiency by 20% by architecting a Python agentic AI workflow for high-priority credit applications with rule-based scoring and sentiment analysis on automated two-hour cycles.',
@@ -64,6 +77,7 @@ const roles: Role[] = [
     company: 'Marble Investments',
     location: 'Waterloo, ON',
     period: 'Jan 2026 - Present',
+    logo: marbleLogo,
     detail: 'Market-data infrastructure, feature engineering, and resilient portfolio reporting.',
     bullets: [
       'Slashed data pipeline ingestion latency by 80%, from five minutes to one minute, across 5,000+ global market feeds with ThreadPoolExecutor.',
@@ -74,8 +88,9 @@ const roles: Role[] = [
   {
     title: 'ML Engineer',
     company: 'World Order Book (WatStreet)',
-    location: 'Volunteer',
+    location: 'Waterloo, ON',
     period: '2026 - Present',
+    logo: watstreetLogo,
     detail: 'Reinforcement learning and execution research in a custom limit order book simulator.',
     bullets: [
       'Benchmarked Double Deep Q-Networks against classical execution algorithms and outperformed the benchmark by 5% on implementation shortfall.',
@@ -88,6 +103,7 @@ const roles: Role[] = [
     company: 'UW Finance Association',
     location: 'Waterloo, ON',
     period: 'Jan 2026 - May 2026',
+    logo: uwfaLogo,
     detail: 'Identified acquisition opportunities through industry research, target screening, and comparable-company analysis.',
     bullets: [],
       volunteer: true,
@@ -97,6 +113,7 @@ const roles: Role[] = [
     company: 'UW Wealth Management',
     location: 'Waterloo, ON',
     period: 'Feb 2026 - May 2026',
+    logo: uwmwmaLogo,
     detail: 'Assessed valuation models for stock pitches and monitored portfolio holdings against benchmarks.',
     bullets: [],
     volunteer: true,
@@ -106,6 +123,7 @@ const roles: Role[] = [
     company: 'UW Fintech Club',
     location: 'Waterloo, ON',
     period: 'Oct 2025 - May 2026',
+    logo: uwfintechLogo,
     detail: 'Evaluated fintech companies across payments, lending, and wealth technology while building DCF models.',
      volunteer: true,
     bullets: [],
@@ -132,15 +150,27 @@ const certifications = [
   ['SQL for Finance Professionals', 'Corporate Finance Institute'],
 ]
 
+const listeningList: MediaItem[] = [
+  { title: 'Curated playlists', subtitle: 'Tracks on repeat', tag: 'MUSIC' },
+  { title: 'Long-form mixes', subtitle: 'Deep focus sessions', tag: 'FOCUS' },
+]
+
+const watchingList: MediaItem[] = [
+  { title: 'Documentaries', subtitle: 'Ideas worth exploring', tag: 'MEDIA' },
+  { title: 'Selected series', subtitle: 'A good evening watch', tag: 'SERIES' },
+]
+
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.18, delay }}>{children}</motion.div>
 }
 
 export default function App() {
   const [active, setActive] = useState('home')
-
+  const [expTab, setExpTab] = useState<'work' | 'volunteer'>('work')
+  const filteredRoles = roles.filter((role) => (expTab === 'volunteer' ? role.volunteer : !role.volunteer))
+  
   useEffect(() => {
-    const sections = ['home', 'work', 'skills', 'recognition', 'blogs', 'projects'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    const sections = ['home', 'work', 'projects', 'skills', 'current','recognition', 'blogs'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.find((entry) => entry.isIntersecting)
       if (visible?.target.id) setActive(visible.target.id)
@@ -186,7 +216,7 @@ export default function App() {
       <header className="site-header">
         <a className="wordmark" href="#home" aria-label="Poneesh Kumar home">PK<span>.</span></a>
         <nav className="site-nav" aria-label="Main navigation">
-            {['home', 'work', 'skills', 'recognition', 'blogs', 'projects'].map((id) => <a key={id} className={active === id ? 'is-active' : ''} href={`#${id}`}>{id}</a>)}
+            {['home', 'work', 'projects', 'skills', 'current', 'recognition', 'blogs'].map((id) => <a key={id} className={active === id ? 'is-active' : ''} href={`#${id}`}>{id}</a>)}
         </nav>
       </header>
 
@@ -211,15 +241,75 @@ export default function App() {
           </aside>
         </section>
         <section id="work" className="section-rule contact-section">
-          <div className="section-intro"><p className="kicker">02 / Experience & contact</p><h2>Experience.</h2><p>Useful systems, carefully shipped.</p></div>
+          <div className="section-intro">
+            <p className="kicker">02 / Track Record</p>
+            <h2>Experience.</h2>
+            <p>Useful systems, carefully shipped.</p>
+          </div>
+
+          <div className="toggle-wrapper">
+            <div className="toggle-container">
+              <button
+                className={`toggle-btn ${expTab === 'work' ? 'is-active' : ''}`}
+                onClick={() => setExpTab('work')}
+              >
+                Work
+              </button>
+              <button
+                className={`toggle-btn ${expTab === 'volunteer' ? 'is-active' : ''}`}
+                onClick={() => setExpTab('volunteer')}
+              >
+                Volunteer
+              </button>
+            </div>
+          </div>
+
           <div className="experience-list">
-            {roles.map((role) => (
-              <article className={`experience-row${role.volunteer ? ' is-volunteer' : ''}`} key={`${role.title}-${role.company}`}>
-                <div className="experience-title"><strong>{role.title}</strong><span>{role.company}{role.location ? ` / ${role.location}` : ''}</span>{role.volunteer ? <small>Volunteer</small> : null}</div>
-                <time>{role.period}</time>
-                <div className="experience-detail"><p>{role.detail}</p>{role.bullets.length ? <ul>{role.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul> : null}</div>
-              </article>
-            ))}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={expTab}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.15 }}
+              >
+                {filteredRoles.map((role) => (
+                  <article
+                    className={`experience-row${role.volunteer ? ' is-volunteer' : ''}`}
+                    key={`${role.title}-${role.company}`}
+                  >
+                    <div className="experience-header">
+                      {role.logo && (
+                        <img
+                          src={role.logo}
+                          alt={`${role.company} logo`}
+                          className="company-logo"
+                        />
+                      )}
+                      <div>
+                        <strong>{role.title}</strong>
+                        <span>
+                          {role.company}
+                          {role.location ? ` / ${role.location}` : ''}
+                        </span>
+                        {role.volunteer ? <small>Volunteer</small> : null}
+                      </div>
+                    </div>
+                    <time>{role.period}</time>
+                    <div className="experience-detail">
+                      <p>{role.detail}</p>
+                      {role.bullets.length ? (
+                        <ul>
+                          {role.bullets.map((bullet) => (
+                            <li key={bullet}>{bullet}</li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  </article>
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </section>
         <section id="projects" className="section-rule">
@@ -229,7 +319,7 @@ export default function App() {
           </div>
         </section>
 
-<section id="skills" className="section-rule split-section">
+        <section id="skills" className="section-rule split-section">
           <div className="section-intro">
             <p className="kicker">04 / Tech Stack</p>
             <h2>Languages & Tools.</h2>
@@ -253,9 +343,49 @@ export default function App() {
             </div>
           </Reveal>
         </section>
+        <section id="current" className="section-rule split-section">
+          <div className="section-intro">
+            <p className="kicker">05 / Beyond Engineering</p>
+            <h2>What I'm Up To.</h2>
+            <p>Tracks on repeat, binge-worthy media, and current non-technical obsessions.</p>
+          </div>
+          <Reveal>
+            <div className="upto-grid">
+              <div className="upto-card">
+                <p className="mono-label">🎧 ON REPEAT</p>
+                <div className="media-list">
+                  {listeningList.map((item) => (
+                    <div className="media-row" key={item.title}>
+                      <div className="media-meta">
+                        <span className="media-title">{item.title}</span>
+                        <span className="media-subtitle">{item.subtitle}</span>
+                      </div>
+                      {item.tag && <span className="media-tag">{item.tag}</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="upto-card">
+                <p className="mono-label">🍿 CURRENTLY WATCHING</p>
+                <div className="media-list">
+                  {watchingList.map((item) => (
+                    <div className="media-row" key={item.title}>
+                      <div className="media-meta">
+                        <span className="media-title">{item.title}</span>
+                        <span className="media-subtitle">{item.subtitle}</span>
+                      </div>
+                      {item.tag && <span className="media-tag">{item.tag}</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </section>
 
         <section id="recognition" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">05 / Recognition</p><h2>Awards & Certifications</h2><p>Awards and certifications spanning applied AI, quantitative finance, security, and data.</p></div>
+          <div className="section-intro"><p className="kicker">06 / Recognition</p><h2>Awards & Certifications</h2><p>Awards and certifications spanning applied AI, quantitative finance, security, and data.</p></div>
           <div className="recognition-columns">
             <div className="recognition-list"><p className="mono-label">AWARDS</p>{recognition.map(([title, org, year]) => <div className="recognition-row" key={title}><strong>{title}</strong><span>{org}</span><time>{year}</time></div>)}</div>
             <div className="recognition-list"><p className="mono-label">CERTIFICATIONS</p>{certifications.map(([title, org]) => <div className="recognition-row" key={title}><strong>{title}</strong><span>{org}</span></div>)}</div>
@@ -263,7 +393,7 @@ export default function App() {
         </section>
 
         <section id="blogs" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">06 / Blogs</p><h2>Small yap sessions from the build loop.</h2><p>Short technical writing, when the idea is clearer on paper.</p></div>
+          <div className="section-intro"><p className="kicker">07 / Blogs</p><h2>Small yap sessions from the build loop.</h2><p>Short technical writing, when the idea is clearer on paper.</p></div>
           <div className="notes-list">{posts.map(([title, description], index) => <a href="#contact" className="note-row" key={title}><span>0{index + 1}</span><strong>{title}</strong><em>{description}</em><b>↗</b></a>)}</div>
         </section>
       </main>
