@@ -11,8 +11,6 @@ import watstreetLogo from './assets/WatStreet.jpeg'
 type Project = { title: string; kind: string; year: string; impact: string; technologies: string[]; href: string }
 type Role = { title: string; company: string; location?: string; period: string; logo?: string; detail: string; bullets: string[]; volunteer?: boolean }
 type TechItem = { name: string; icon: string }
-type MediaItem = { title: string; subtitle: string; tag?: string }
-
 
 
 const techStack: TechItem[] = [
@@ -149,17 +147,6 @@ const certifications = [
   ['Microsoft Security Essentials', 'Microsoft'],
   ['SQL for Finance Professionals', 'Corporate Finance Institute'],
 ]
-
-const listeningList: MediaItem[] = [
-  { title: 'Curated playlists', subtitle: 'Tracks on repeat', tag: 'MUSIC' },
-  { title: 'Long-form mixes', subtitle: 'Deep focus sessions', tag: 'FOCUS' },
-]
-
-const watchingList: MediaItem[] = [
-  { title: 'Documentaries', subtitle: 'Ideas worth exploring', tag: 'MEDIA' },
-  { title: 'Selected series', subtitle: 'A good evening watch', tag: 'SERIES' },
-]
-
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return <motion.div initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.18, delay }}>{children}</motion.div>
 }
@@ -237,7 +224,7 @@ export default function App() {
           </div>
           <aside className="hero-aside" aria-label="Current focus">
             <p className="mono-label">CURRENT FOCUS</p>
-            <p>Market data infrastructure<br />Quantitative finance<br />Applied machine learning</p>
+            <p>Market data infrastructure<br />Quantitative finance<br />Software Engineering</p>
           </aside>
         </section>
         <section id="work" className="section-rule contact-section">
@@ -343,47 +330,6 @@ export default function App() {
             </div>
           </Reveal>
         </section>
-        <section id="current" className="section-rule split-section">
-          <div className="section-intro">
-            <p className="kicker">05 / Beyond Engineering</p>
-            <h2>What I'm Up To.</h2>
-            <p>Tracks on repeat, binge-worthy media, and current non-technical obsessions.</p>
-          </div>
-          <Reveal>
-            <div className="upto-grid">
-              <div className="upto-card">
-                <p className="mono-label">🎧 ON REPEAT</p>
-                <div className="media-list">
-                  {listeningList.map((item) => (
-                    <div className="media-row" key={item.title}>
-                      <div className="media-meta">
-                        <span className="media-title">{item.title}</span>
-                        <span className="media-subtitle">{item.subtitle}</span>
-                      </div>
-                      {item.tag && <span className="media-tag">{item.tag}</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="upto-card">
-                <p className="mono-label">🍿 CURRENTLY WATCHING</p>
-                <div className="media-list">
-                  {watchingList.map((item) => (
-                    <div className="media-row" key={item.title}>
-                      <div className="media-meta">
-                        <span className="media-title">{item.title}</span>
-                        <span className="media-subtitle">{item.subtitle}</span>
-                      </div>
-                      {item.tag && <span className="media-tag">{item.tag}</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </section>
-
         <section id="recognition" className="section-rule split-section">
           <div className="section-intro"><p className="kicker">06 / Recognition</p><h2>Awards & Certifications</h2><p>Awards and certifications spanning applied AI, quantitative finance, security, and data.</p></div>
           <div className="recognition-columns">
