@@ -19,27 +19,36 @@ const techStack: TechItem[] = [
   { name: 'JavaScript', icon: 'javascript' },
   { name: 'C++', icon: 'cplusplus' },
   { name: 'SQL', icon: 'postgresql' },
-  { name: 'MATLAB', icon: 'mathworks' },
-  { name: 'React', icon: 'react' },
-  { name: 'FastAPI', icon: 'fastapi' },
-  { name: 'Django REST', icon: 'django' },
-  { name: 'Supabase', icon: 'supabase' },
-  { name: 'Firebase', icon: 'firebase' },
-  { name: 'Tailwind CSS', icon: 'tailwindcss' },
+  { name: 'Neo4j', icon: 'neo4j' },
+  { name: 'Redis', icon: 'redis' },
+  { name: 'Kafka', icon: 'apachekafka' },
+  { name: 'Docker', icon: 'docker' },
+  { name: 'PyTorch', icon: 'pytorch' },
+  { name: 'Scikit-learn', icon: 'scikitlearn' },
   { name: 'Pandas', icon: 'pandas' },
   { name: 'NumPy', icon: 'numpy' },
-  { name: 'Scikit-learn', icon: 'scikitlearn' },
-  { name: 'PyTorch', icon: 'pytorch' },
-  { name: 'Recharts', icon: 'd3dotjs' },
-  { name: 'Cypress', icon: 'cypress' },
-  { name: 'C', icon: 'c' },
-  { name: 'Vite', icon: 'vite' },
-  { name: 'Docker', icon: 'docker' },
+  { name: 'FastAPI', icon: 'fastapi' },
+  { name: 'Django REST', icon: 'django' },
+  { name: 'React', icon: 'react' },
+  { name: 'Tailwind CSS', icon: 'tailwindcss' },
+  { name: 'Supabase', icon: 'supabase' },
+  { name: 'Firebase', icon: 'firebase' },
+  { name: 'MATLAB', icon: 'mathworks' },
   { name: 'Git', icon: 'git' },
+  { name: 'Vite', icon: 'vite' },
   { name: 'Vercel', icon: 'vercel' },
 ]
 
 const projects: Project[] = [
+  {
+    title: 'FlowGraph',
+    kind: 'Real-Time Graph ML Fraud Engine',
+    year: '2026',
+    impact:
+      'Processed 5.04M streaming payments through Kafka and Neo4j, using a 3-layer bidirectional GraphSAGE network to lift laundering detection PR-AUC from 0.057 to 0.735 at 0.99 ROC-AUC.',
+    technologies: ['Neo4j', 'PyTorch', 'Kafka', 'Redis', 'PostgreSQL', 'FastAPI'],
+    href: 'https://github.com/PoneeshKumar/FlowGraph',
+  },
   { title: 'CreditLens', kind: 'Credit risk platform', year: '2026', impact: 'Scores financial-document deterioration across multiple fiscal years and flags high-risk issuers earlier.', technologies: ['Python', 'FastAPI', 'React', 'TypeScript'], href: 'https://github.com/PoneeshKumar/CreditRisk' },
   { title: 'Portfolio Advisor', kind: 'Systematic trading research', year: '2026', impact: 'Delivered a 25% annualized backtest across 70+ TSX and NYSE equities using momentum, RSI, and SMA signals.', technologies: ['Python', 'Pandas', 'SciPy', 'yFinance'], href: 'https://github.com/IanLeung12/CFM-Group-Project' },
   { title: 'Equity Dashboard', kind: 'Market data infrastructure', year: '2026', impact: 'Reduced API latency by 30% with multi-tier caching while tracking 5,000+ active equities and AI summaries.', technologies: ['Python', 'FastAPI', 'Polygon.io', 'Streamlit'], href: 'https://github.com/Bill-Cai-2005/Marble-Dashboard' },
@@ -157,7 +166,7 @@ export default function App() {
   const filteredRoles = roles.filter((role) => (expTab === 'volunteer' ? role.volunteer : !role.volunteer))
   
   useEffect(() => {
-    const sections = ['home', 'work', 'projects', 'skills', 'current','recognition', 'blogs'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
+    const sections = ['home', 'work', 'projects', 'skills','recognition', 'blogs'].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[]
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.find((entry) => entry.isIntersecting)
       if (visible?.target.id) setActive(visible.target.id)
@@ -203,7 +212,7 @@ export default function App() {
       <header className="site-header">
         <a className="wordmark" href="#home" aria-label="Poneesh Kumar home">PK<span>.</span></a>
         <nav className="site-nav" aria-label="Main navigation">
-            {['home', 'work', 'projects', 'skills', 'current', 'recognition', 'blogs'].map((id) => <a key={id} className={active === id ? 'is-active' : ''} href={`#${id}`}>{id}</a>)}
+            {['home', 'work', 'projects', 'skills', 'recognition', 'blogs'].map((id) => <a key={id} className={active === id ? 'is-active' : ''} href={`#${id}`}>{id}</a>)}
         </nav>
       </header>
 
