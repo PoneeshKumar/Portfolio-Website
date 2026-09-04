@@ -348,7 +348,7 @@ export default function App() {
         </section>
 
         <section id="blogs" className="section-rule split-section">
-          <div className="section-intro"><p className="kicker">07 / Blogs</p><h2>Small yap sessions from the build loop.</h2><p>Short technical writing, when the idea is clearer on paper.</p></div>
+          <div className="section-intro"><p className="kicker">07 / Blogs</p><h2>Small yap sessions from the build loop.</h2><p>Short writings with sources that indicate my thoughts on stuff thats going on in tech lately.</p></div>
           <div className="notes-list">{posts.map(([title, description], index) => <a href="#contact" className="note-row" key={title}><span>0{index + 1}</span><strong>{title}</strong><em>{description}</em><b>↗</b></a>)}</div>
         </section>
       </main>
