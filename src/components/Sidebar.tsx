@@ -1,19 +1,16 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { sections } from '../data'
+import { motion } from 'framer-motion'
+import { profile, sections } from '../data'
 import { useTheme } from '../hooks/useTheme'
-
-const NAME = 'Poneesh Kumar'
 
 export function Sidebar({ active }: { active: string }) {
   const { theme, toggle } = useTheme()
-  const current = sections.find((s) => s.id === active) ?? sections[0]
 
   return (
     <aside className="sidebar">
       <div className="sidebar-top">
-        <p className="kicker">Computing & Financial Management / University of Waterloo</p>
-        <h1 aria-label={NAME}>
-          {NAME.split(' ').map((word, w) => (
+        <p className="kicker">{profile.school}</p>
+        <h1 aria-label={profile.name}>
+          {profile.name.split(' ').map((word, w) => (
             <span key={word} className="word">
               {word.split('').map((char, i) => (
                 <span key={i} aria-hidden style={{ animationDelay: `${150 + (w * 8 + i) * 30}ms` }}>{char}</span>
@@ -21,11 +18,12 @@ export function Sidebar({ active }: { active: string }) {
             </span>
           ))}
         </h1>
-        <p className="lede">Building low-latency data tools and quantitative trading systems for fintech teams.</p>
+        <p className="now"><i aria-hidden />Now: {profile.now.role} <span>@ {profile.now.org}</span></p>
+        <p className="lede">{profile.lede}</p>
 
         <div className="sidebar-actions">
           <a className="btn btn-primary" href="/resume.pdf" target="_blank" rel="noreferrer">Resume ↗</a>
-          <a className="btn" href="mailto:poneesh.kumar@uwaterloo.ca">Email</a>
+          <a className="btn" href={`mailto:${profile.email}`}>Email</a>
         </div>
       </div>
 
@@ -39,21 +37,11 @@ export function Sidebar({ active }: { active: string }) {
         ))}
       </nav>
 
-      <div className="sidebar-bottom">
-        <div className="subtitle" aria-live="polite">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p key={current.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }}>
-              <span>{current.label}</span> {current.subtitle}
-            </motion.p>
-          </AnimatePresence>
-        </div>
-        <div className="sidebar-links">
-          <a href="https://github.com/PoneeshKumar" target="_blank" rel="noreferrer">GitHub ↗</a>
-          <a href="https://www.linkedin.com/in/poneeshkumar" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          <button className="theme-toggle" onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
-            {theme === 'dark' ? '☀' : '☾'}
-          </button>
-        </div>
+      <div className="sidebar-links">
+        {profile.links.map((link) => <a key={link.label} href={link.href} target="_blank" rel="noreferrer">{link.label} ↗</a>)}
+        <button className="theme-toggle" onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+          {theme === 'dark' ? '☀' : '☾'}
+        </button>
       </div>
     </aside>
   )

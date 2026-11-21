@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { projects, type Project } from '../data'
 import { Reveal, SectionHeader } from './Reveal'
@@ -50,8 +50,16 @@ function ProjectDetail({ project, onClose }: { project: Project; onClose: () => 
 }
 
 export function Projects() {
-  const [selected, setSelected] = useState<Project | null>(null)
-  const close = () => setSelected(null)
+  const [selected, setSelected] = useState<Project | null>(() => projects.find((p) => `#project-${p.slug}` === window.location.hash) ?? null)
+
+  const open = (project: Project) => {
+    history.replaceState(null, '', `#project-${project.slug}`)
+    setSelected(project)
+  }
+  const close = useCallback(() => {
+    history.replaceState(null, '', '#projects')
+    setSelected(null)
+  }, [])
 
   return (
     <section id="projects">
@@ -67,8 +75,8 @@ export function Projects() {
               role="button"
               tabIndex={0}
               aria-haspopup="dialog"
-              onClick={() => setSelected(project)}
-              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setSelected(project))}
+              onClick={() => open(project)}
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), open(project))}
             >
               <span className="project-number">{String(i + 1).padStart(2, '0')}</span>
               <div className="project-main">

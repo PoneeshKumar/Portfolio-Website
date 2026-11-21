@@ -31,11 +31,11 @@ export function Experience() {
         <AnimatePresence mode="wait">
           <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
             {filtered.map((role) => (
-              <article className="role" key={`${role.title}-${role.company}`}>
+              <article className={`role${role.bullets.length ? '' : ' is-compact'}`} key={`${role.title}-${role.company}`}>
                 <span className="role-node" aria-hidden />
                 <div className="role-logo">{role.logo && <img src={role.logo} alt={`${role.company} logo`} />}</div>
                 <div className="role-body">
-                  <time>{role.period}</time>
+                  <time>{role.period}{role.current && <span className="badge">Now</span>}</time>
                   <h3>{role.title}</h3>
                   <p className="role-company">{role.company}{role.location ? ` / ${role.location}` : ''}</p>
                   <p>{role.detail}</p>

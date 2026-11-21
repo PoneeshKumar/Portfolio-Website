@@ -3,6 +3,7 @@ import { sections } from './data'
 import { useActiveSection } from './hooks/useActiveSection'
 import { Sidebar } from './components/Sidebar'
 import { ScrollProgress } from './components/ScrollProgress'
+import { Stats } from './components/Stats'
 import { Experience } from './components/Experience'
 import { Projects } from './components/Projects'
 import { Skills } from './components/Skills'
@@ -20,6 +21,7 @@ export default function App() {
       <div className="layout">
         <Sidebar active={active} />
         <main className="content">
+          <Stats />
           <Experience />
           <Projects />
           <Skills />
