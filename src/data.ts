@@ -6,7 +6,7 @@ import uwmwmaLogo from './assets/uwwma.jpeg'
 import uwfaLogo from './assets/UWFA.jpeg'
 import watstreetLogo from './assets/WatStreet.jpeg'
 
-export type Project = { title: string; kind: string; year: string; impact: string; technologies: string[]; href: string }
+export type Project = { title: string; kind: string; year: string; metric?: string; impact: string; highlights?: string[]; technologies: string[]; href: string; demo?: string }
 export type Role = { title: string; company: string; location?: string; period: string; logo?: string; detail: string; bullets: string[]; volunteer?: boolean }
 export type TechItem = { name: string; icon: string }
 export type Section = { id: string; label: string; subtitle: string }
@@ -39,7 +39,24 @@ export const techStack: TechItem[] = [
 
 export const projects: Project[] = [
   {
+    title: 'PurgeKV',
+    kind: 'LLM inference infrastructure for Apple Silicon',
+    year: '2026',
+    metric: '26× faster first token',
+    impact:
+      'An SSD tier under the MLX prompt cache. When a chat is pushed out of RAM or lost to a restart, its KV cache is read back from SSD in about a second instead of 20–45 s of recompute, cutting agent time-to-first-token from 29.3 s to 1.13 s on a 16 GB M4.',
+    highlights: [
+      'Layer-streamed resume: the GPU computes layer i while layer i+1 is still arriving from SSD, so time-to-first-token approaches max(load, compute). 1.6× faster resumes with bit-identical output.',
+      'Think-time prefetch reads an agent\'s chat back while it runs a tool. A 32K-token chat resumes in 0.31 s, against 169 s to recompute.',
+      'Append-only segment store writes only new tokens (7.5× fewer SSD writes) and forks shared prompts without copying (3.9 GB instead of 15.2 GB).',
+      'Drop-in OpenAI-compatible server. On a five-agent Qwen3-8B trading workflow, the average first-token wait fell from 15.7 s to 7.0 s.',
+    ],
+    technologies: ['Python', 'MLX', 'Apple Silicon', 'OpenAI API', 'pytest'],
+    href: 'https://github.com/PoneeshKumar/purgekv',
+  },
+  {
     title: 'FlowGraph',
+    metric: 'PR-AUC 0.057 → 0.735',
     kind: 'Real-Time Graph ML Fraud Engine',
     year: '2026',
     impact:
@@ -47,10 +64,10 @@ export const projects: Project[] = [
     technologies: ['Neo4j', 'PyTorch', 'Kafka', 'Redis', 'PostgreSQL', 'FastAPI'],
     href: 'https://github.com/PoneeshKumar/FlowGraph',
   },
-  { title: 'CreditLens', kind: 'Credit risk platform', year: '2026', impact: 'Scores financial-document deterioration across multiple fiscal years and flags high-risk issuers earlier.', technologies: ['Python', 'FastAPI', 'React', 'TypeScript'], href: 'https://github.com/PoneeshKumar/CreditRisk' },
-  { title: 'Portfolio Advisor', kind: 'Systematic trading research', year: '2026', impact: 'Delivered a 25% annualized backtest across 70+ TSX and NYSE equities using momentum, RSI, and SMA signals.', technologies: ['Python', 'Pandas', 'SciPy', 'yFinance'], href: 'https://github.com/IanLeung12/CFM-Group-Project' },
-  { title: 'Equity Dashboard', kind: 'Market data infrastructure', year: '2026', impact: 'Reduced API latency by 30% with multi-tier caching while tracking 5,000+ active equities and AI summaries.', technologies: ['Python', 'FastAPI', 'Polygon.io', 'Streamlit'], href: 'https://github.com/Bill-Cai-2005/Marble-Dashboard' },
-  { title: 'CityScapes', kind: 'AI civic technology', year: '2026', impact: 'Won first place with a parcel-level planning tool that ranks heat risk, equity, and park access.', technologies: ['React', 'Mapbox', 'Claude 3.5', 'FastAPI'], href: 'https://github.com/tanvibatchu/CityScapes' },
+  { title: 'CreditLens', kind: 'Credit risk platform', year: '2026', demo: 'https://creditlens-pi.vercel.app', impact: 'Scores financial-document deterioration across multiple fiscal years and flags high-risk issuers earlier.', technologies: ['Python', 'FastAPI', 'React', 'TypeScript'], href: 'https://github.com/PoneeshKumar/CreditRisk' },
+  { title: 'Portfolio Advisor', kind: 'Systematic trading research', year: '2026', metric: '25% annualized backtest', impact: 'Delivered a 25% annualized backtest across 70+ TSX and NYSE equities using momentum, RSI, and SMA signals.', technologies: ['Python', 'Pandas', 'SciPy', 'yFinance'], href: 'https://github.com/IanLeung12/CFM-Group-Project' },
+  { title: 'Equity Dashboard', kind: 'Market data infrastructure', year: '2026', metric: '−30% API latency', impact: 'Reduced API latency by 30% with multi-tier caching while tracking 5,000+ active equities and AI summaries.', technologies: ['Python', 'FastAPI', 'Polygon.io', 'Streamlit'], href: 'https://github.com/Bill-Cai-2005/Marble-Dashboard' },
+  { title: 'CityScapes', kind: 'AI civic technology', year: '2026', metric: '1st place hackathon', impact: 'Won first place with a parcel-level planning tool that ranks heat risk, equity, and park access.', technologies: ['React', 'Mapbox', 'Claude 3.5', 'FastAPI'], href: 'https://github.com/tanvibatchu/CityScapes' },
 ]
 
 export const roles: Role[] = [

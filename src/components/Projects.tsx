@@ -34,9 +34,14 @@ function ProjectDetail({ project, onClose }: { project: Project; onClose: () => 
               <button ref={closeRef} className="detail-close" onClick={onClose} aria-label="Close">✕</button>
             </div>
             <h3 id="detail-title">{project.title}</h3>
+            {project.metric && <p className="metric">{project.metric}</p>}
             <p>{project.impact}</p>
+            {project.highlights && <ul className="detail-highlights">{project.highlights.map((h) => <li key={h}>{h}</li>)}</ul>}
             <Tags items={project.technologies} />
-            <a className="btn btn-primary" href={project.href} target="_blank" rel="noreferrer">View source ↗</a>
+            <div className="detail-actions">
+              <a className="btn btn-primary" href={project.href} target="_blank" rel="noreferrer">View source ↗</a>
+              {project.demo && <a className="btn" href={project.demo} target="_blank" rel="noreferrer">Live demo ↗</a>}
+            </div>
           </motion.div>
         </motion.div>
       </div>
@@ -68,6 +73,7 @@ export function Projects() {
               <span className="project-number">{String(i + 1).padStart(2, '0')}</span>
               <div className="project-main">
                 <div className="project-heading"><h3>{project.title}</h3><span>{project.kind}</span></div>
+                {project.metric && <p className="metric">{project.metric}</p>}
                 <Tags items={project.technologies} />
               </div>
               <span className="project-open" aria-hidden>+</span>
