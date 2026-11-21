@@ -7,9 +7,8 @@ import uwfaLogo from './assets/UWFA.jpeg'
 import watstreetLogo from './assets/WatStreet.jpeg'
 
 export type Project = { slug: string; title: string; kind: string; year: string; metric?: string; impact: string; highlights?: string[]; technologies: string[]; href: string; demo?: string }
-export type Role = { title: string; company: string; location?: string; period: string; logo?: string; detail: string; bullets: string[]; volunteer?: boolean; current?: boolean }
+export type Role = { title: string; short: string; company: string; location?: string; period: string; logo?: string; detail: string; bullets: string[]; volunteer?: boolean; current?: boolean }
 export type TechItem = { name: string; icon?: string }
-export type Section = { id: string; label: string }
 
 export const profile = {
   name: 'Poneesh Kumar',
@@ -22,12 +21,14 @@ export const profile = {
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/poneeshkumar' },
     { label: 'X', href: 'https://x.com/PoneeshK' },
   ],
-  stats: [
-    { value: '$41B', label: 'AUM fund my signals feed' },
-    { value: '26×', label: 'faster LLM first token' },
-    { value: '5.0M', label: 'transactions scored live' },
-    { value: '1st', label: 'Claude UWaterloo Hackathon' },
-  ],
+  education: {
+    degree: 'Bachelor of Computing and Financial Management (CS + Finance)',
+    school: 'University of Waterloo',
+    period: 'Sep 2025 - Apr 2030',
+    coursework: 'Data Structures and Algorithms, Financial Markets & Data Analytics, Tools for Software Development',
+    clubs: 'WatStreet, UW FinTech Club, UW Finance Association, UW Wealth Management Association',
+  },
+  focus: ['Market data and signal pipelines', 'ML for trading and fraud detection', 'LLM agents and inference infrastructure'],
 }
 
 export const skillGroups: { name: string; items: TechItem[] }[] = [
@@ -129,6 +130,7 @@ export const roles: Role[] = [
   {
     title: 'Quantitative Developer Intern',
     company: 'RBC Global Asset Management',
+    short: 'RBC GAM',
     location: 'Toronto, ON',
     period: 'Sep 2026 - Dec 2026',
     logo: rbcLogo,
@@ -144,6 +146,7 @@ export const roles: Role[] = [
   {
     title: 'Software Engineering Intern',
     company: 'NetNow Financial',
+    short: 'NetNow',
     location: 'Toronto, ON',
     period: 'May 2026 - Aug 2026',
     logo: netnowLogo,
@@ -157,6 +160,7 @@ export const roles: Role[] = [
   {
     title: 'Software Engineer',
     company: 'Marble Investments',
+    short: 'Marble',
     location: 'Waterloo, ON',
     period: 'Jan 2026 - Present',
     logo: marbleLogo,
@@ -171,6 +175,7 @@ export const roles: Role[] = [
   {
     title: 'ML Engineer',
     company: 'World Order Book (WatStreet)',
+    short: 'WatStreet',
     location: 'Waterloo, ON',
     period: '2026 - Present',
     logo: watstreetLogo,
@@ -184,6 +189,7 @@ export const roles: Role[] = [
   {
     title: 'M&A Market Research Analyst',
     company: 'UW Finance Association',
+    short: 'UWFA',
     location: 'Waterloo, ON',
     period: 'Jan 2026 - May 2026',
     logo: uwfaLogo,
@@ -194,6 +200,7 @@ export const roles: Role[] = [
   {
     title: 'Financial Analyst',
     company: 'UW Wealth Management',
+    short: 'UW Wealth',
     location: 'Waterloo, ON',
     period: 'Feb 2026 - May 2026',
     logo: uwmwmaLogo,
@@ -204,6 +211,7 @@ export const roles: Role[] = [
   {
     title: 'Investment Analyst',
     company: 'UW Fintech Club',
+    short: 'UW FinTech',
     location: 'Waterloo, ON',
     period: 'Oct 2025 - May 2026',
     logo: uwfintechLogo,
@@ -211,12 +219,6 @@ export const roles: Role[] = [
     bullets: [],
     volunteer: true,
   },
-]
-
-export const posts = [
-  ['Designing a cache for market data', 'Notes on freshness, contention, and useful failure modes'],
-  ['What makes a backtest believable?', 'A short checklist for avoiding accidental overfitting'],
-  ['Building software for financial users', 'Why latency is only one part of the product'],
 ]
 
 export const recognition = [
@@ -231,12 +233,4 @@ export const certifications = [
   ['Quantitative Finance & Algorithmic Trading in Python', 'Professional Certification'],
   ['Microsoft Security Essentials', 'Microsoft'],
   ['SQL for Finance Professionals', 'Corporate Finance Institute'],
-]
-
-export const sections: Section[] = [
-  { id: 'work', label: 'Experience' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'skills', label: 'Stack' },
-  { id: 'recognition', label: 'Recognition' },
-  { id: 'blogs', label: 'Writing' },
 ]

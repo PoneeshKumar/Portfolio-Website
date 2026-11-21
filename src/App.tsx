@@ -1,38 +1,61 @@
-import { MotionConfig } from 'framer-motion'
-import { sections } from './data'
-import { useActiveSection } from './hooks/useActiveSection'
-import { Sidebar } from './components/Sidebar'
-import { ScrollProgress } from './components/ScrollProgress'
-import { Stats } from './components/Stats'
-import { Experience } from './components/Experience'
-import { Projects } from './components/Projects'
-import { Skills } from './components/Skills'
-import { Recognition } from './components/Recognition'
-import { Blogs } from './components/Blogs'
-
-const sectionIds = sections.map((s) => s.id)
+import { useEffect } from 'react'
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion'
+import { profile } from './data'
+import { sectionNodes } from './graph'
+import { useRoute } from './hooks/useRoute'
+import { useTheme } from './hooks/useTheme'
+import { Brain } from './components/Brain'
+import { Panel } from './components/Panel'
 
 export default function App() {
-  const active = useActiveSection(sectionIds)
+  const { route, go } = useRoute()
+  const { theme, toggle } = useTheme()
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      if (route.item) go(route.section, undefined)
+      else if (route.section) go()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [route, go])
 
   return (
     <MotionConfig reducedMotion="user">
-      <ScrollProgress />
-      <div className="layout">
-        <Sidebar active={active} />
-        <main className="content">
-          <Stats />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Recognition />
-          <Blogs />
-          <footer className="site-footer">
-            <span>© 2026 Poneesh Kumar</span>
-            <span>poneesh.kumar@uwaterloo.ca</span>
-            <span>Built with React / TypeScript</span>
-          </footer>
-        </main>
+      <div className={`app${route.section ? ' has-panel' : ''}`}>
+        <div className="stage">
+          <header className="topbar">
+            <button className="home" onClick={() => go()} aria-label="Back to the map">{profile.name}</button>
+            <nav className="toplinks" aria-label="Elsewhere">
+              {profile.links.map((l) => <a key={l.label} href={l.href} target="_blank" rel="noreferrer">{l.label}</a>)}
+              <a href="/resume.pdf" target="_blank" rel="noreferrer">Resume</a>
+              <button className="theme-toggle" onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>{theme === 'dark' ? '☀' : '☾'}</button>
+            </nav>
+          </header>
+
+          <AnimatePresence>
+            {!route.section && (
+              <motion.div className="intro" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.4 }}>
+                <h1>{profile.name}</h1>
+                <p>Quant developer at {profile.now.org}. CS + Finance at Waterloo. {profile.lede}</p>
+                <p className="hint">
+                  Each node is a part of what I do. Start with{' '}
+                  {sectionNodes.map((s, i) => (
+                    <span key={s.id}>
+                      <button onClick={() => go(s.id)}>{s.label}</button>
+                      {i < sectionNodes.length - 2 ? ', ' : i === sectionNodes.length - 2 ? ' or ' : '.'}
+                    </span>
+                  ))}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <Brain route={route} go={go} />
+        </div>
+
+        <AnimatePresence>{route.section && <Panel key="panel" route={route} go={go} />}</AnimatePresence>
       </div>
     </MotionConfig>
   )
