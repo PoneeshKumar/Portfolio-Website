@@ -18,19 +18,19 @@ export const contactLinks = [
 ]
 
 export const sectionNodes: SectionNode[] = [
-  { id: 'about', label: 'About', ...CORE, blurb: 'Where it all connects.', items: [{ id: 'now', label: 'Now' }, { id: 'waterloo', label: 'Waterloo' }, { id: 'focus', label: 'Focus' }] },
-  { id: 'experience', label: 'Experience', x: 395, y: 500, blurb: 'Where I have shipped production code.', items: roles.map((r) => ({ id: slug(r.short), label: r.short })) },
-  { id: 'projects', label: 'Projects', x: 225, y: 285, blurb: 'Things I built to answer a specific question.', items: projects.map((p) => ({ id: p.slug, label: p.title })) },
-  { id: 'stack', label: 'Stack', x: 565, y: 140, blurb: 'What I reach for, grouped the way I think about it.', items: skillGroups.map((g) => ({ id: slug(g.name), label: g.name })) },
+  { id: 'about', label: 'About', ...CORE, blurb: 'The short version of me.', items: [{ id: 'now', label: 'Now' }, { id: 'waterloo', label: 'Waterloo' }, { id: 'focus', label: 'Focus' }] },
+  { id: 'experience', label: 'Experience', x: 395, y: 500, blurb: 'Where I\'ve gotten to ship real code.', items: roles.map((r) => ({ id: slug(r.short), label: r.short })) },
+  { id: 'projects', label: 'Projects', x: 225, y: 285, blurb: 'Mostly built for fun, usually because I wanted to understand how something works.', items: projects.map((p) => ({ id: p.slug, label: p.title })) },
+  { id: 'stack', label: 'Stack', x: 565, y: 140, blurb: 'Tools I\'ve picked up along the way.', items: skillGroups.map((g) => ({ id: slug(g.name), label: g.name })) },
   {
     id: 'recognition',
     label: 'Recognition',
     x: 795,
     y: 290,
-    blurb: 'Awards and certifications.',
+    blurb: 'A few things that went well.',
     items: [...recognition.map(([t]) => ({ id: slug(t), label: t.includes(' - ') ? t.split(' - ')[1] : t.replace(' of Distinction', '') })), { id: 'certifications', label: `${certifications.length} certifications` }],
   },
-  { id: 'contact', label: 'Contact', x: 735, y: 548, blurb: 'The fastest way to reach me is email.', items: contactLinks.map(({ id, label }) => ({ id, label })) },
+  { id: 'contact', label: 'Contact', x: 735, y: 548, blurb: 'Say hi. Email gets the fastest reply.', items: contactLinks.map(({ id, label }) => ({ id, label })) },
 ]
 
 export const sectionById = (id?: string) => sectionNodes.find((s) => s.id === id)

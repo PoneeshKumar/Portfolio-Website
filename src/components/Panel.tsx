@@ -56,7 +56,7 @@ function Body({ section, selected, onSelect }: { section: SectionId; selected?: 
             <p><strong>Coursework.</strong> {profile.education.coursework}</p>
             <p><strong>Clubs.</strong> {profile.education.clubs}</p>
           </Row>
-          <Row id="focus" {...props} title="What I work on" open>
+          <Row id="focus" {...props} title="What I'm into right now" open>
             <Bullets items={profile.focus} />
           </Row>
         </>

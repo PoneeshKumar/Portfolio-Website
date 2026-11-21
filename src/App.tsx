@@ -38,9 +38,9 @@ export default function App() {
             {!route.section && (
               <motion.div className="intro" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} transition={{ duration: 0.4 }}>
                 <h1>{profile.name}</h1>
-                <p>Quant developer at {profile.now.org}. CS + Finance at Waterloo. {profile.lede}</p>
+                <p>Quant dev intern at RBC GAM, studying CS + Finance at Waterloo. {profile.lede}</p>
                 <p className="hint">
-                  Each node is a part of what I do. Start with{' '}
+                  This is roughly how my head is wired. Poke around:{' '}
                   {sectionNodes.map((s, i) => (
                     <span key={s.id}>
                       <button onClick={() => go(s.id)}>{s.label}</button>

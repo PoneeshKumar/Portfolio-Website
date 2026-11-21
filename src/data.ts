@@ -14,7 +14,7 @@ export const profile = {
   name: 'Poneesh Kumar',
   school: 'CS + Finance / University of Waterloo',
   now: { role: 'Quantitative Developer Intern', org: 'RBC Global Asset Management' },
-  lede: 'I build data pipelines, ML trading signals and LLM infrastructure for quant and fintech teams.',
+  lede: 'I like building things for fun, and lately that means learning my way around AI: agents, inference, and the systems underneath them.',
   email: 'poneesh.kumar@uwaterloo.ca',
   links: [
     { label: 'GitHub', href: 'https://github.com/PoneeshKumar' },
@@ -28,7 +28,7 @@ export const profile = {
     coursework: 'Data Structures and Algorithms, Financial Markets & Data Analytics, Tools for Software Development',
     clubs: 'WatStreet, UW FinTech Club, UW Finance Association, UW Wealth Management Association',
   },
-  focus: ['Market data and signal pipelines', 'ML for trading and fraud detection', 'LLM agents and inference infrastructure'],
+  focus: ['Building LLM agents, and the plumbing that keeps them fast', 'Figuring out how inference actually works, down to the KV cache', 'ML for markets: signals, execution and fraud detection'],
 }
 
 export const skillGroups: { name: string; items: TechItem[] }[] = [
